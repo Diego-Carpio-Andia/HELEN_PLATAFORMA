@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Fondo redondeado crema -->
+  <rect width="64" height="64" rx="14" fill="#5C6349"/>
+  <!-- Flor de 8 pétalos (emblema de la marca) -->
+  <g transform="translate(32 32)" fill="#C0A062">
+    <g id="p">
+      <ellipse cx="0" cy="-15" rx="6.5" ry="11" fill="#DCCDB6"/>
+    </g>
+    <use href="#p" transform="rotate(45)"/>
+    <use href="#p" transform="rotate(90)"/>
+    <use href="#p" transform="rotate(135)"/>
+    <use href="#p" transform="rotate(180)"/>
+    <use href="#p" transform="rotate(225)"/>
+    <use href="#p" transform="rotate(270)"/>
+    <use href="#p" transform="rotate(315)"/>
+    <!-- Centro dorado -->
+    <circle cx="0" cy="0" r="7" fill="#C0A062"/>
+  </g>
+</svg>

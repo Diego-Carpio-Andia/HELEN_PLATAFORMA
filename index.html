@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ===================== SEO ===================== -->
+  <title>Psi. Helen Carpio | Psicología Holística · Sanar es volver a ti</title>
+  <meta name="description" content="Psi. Helen Carpio (Mg. Helen Carpio Andia) — Psicóloga Holística con 7 años de experiencia. Acompañamiento integral del ser: cuerpo, mente, emoción y espíritu. Terapia individual, de pareja, familiar, infantil, nutrición consciente, talleres vivenciales, casa de retiro y terapias complementarias en San Isidro y Ate Vitarte, Lima." />
+  <meta name="keywords" content="psicóloga holística, psicología integrativa, terapia holística Lima, Helen Carpio, sanación, mindfulness, niño interior, talleres vivenciales, terapia de pareja, San Isidro, Ate" />
+  <meta name="author" content="Psi. Helen Carpio Andia" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#7C8463" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="favicon.svg" />
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Psi. Helen Carpio | Psicología Holística · Sanar es volver a ti" />
+  <meta property="og:description" content="Acompañamiento integral del ser: cuerpo, mente y espíritu. Agenda tu sesión transformadora." />
+  <meta property="og:image" content="images/QuienSoy.png" />
+  <meta property="og:locale" content="es_PE" />
+
+  <!-- ===================== Tailwind CSS (CDN) ===================== -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- ===================== Tipografías ===================== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- ===================== Configuración de la paleta holística ===================== -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            // Paleta holística premium · fácil de editar aquí
+            sage:      '#7C8463', // verde salvia principal
+            'sage-dk': '#5C6349', // verde oliva profundo
+            'sage-lt': '#A8AE93', // salvia claro
+            cream:     '#F7F2E9', // crema base
+            beige:     '#EBE2D3', // beige cálido
+            sand:      '#DCCDB6', // arena
+            terra:     '#B57256', // terracota
+            'terra-lt':'#C99B7E', // terracota suave
+            gold:      '#C0A062', // dorado suave
+            ink:       '#3A352E', // marrón tinta (texto)
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans:  ['"Jost"', 'sans-serif'],
+          },
+          letterSpacing: {
+            widest2: '0.35em',
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- ===================== Estilos personalizados ===================== -->
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background-color: #F7F2E9; color: #3A352E; }
+
+    /* Scrollbar elegante */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #EBE2D3; }
+    ::-webkit-scrollbar-thumb { background: #A8AE93; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #7C8463; }
+
+    /* Animación fade-in al hacer scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s cubic-bezier(.2,.7,.2,1), transform 1s cubic-bezier(.2,.7,.2,1);
+      will-change: opacity, transform;
+    }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .reveal.delay-1 { transition-delay: .15s; }
+    .reveal.delay-2 { transition-delay: .30s; }
+    .reveal.delay-3 { transition-delay: .45s; }
+
+    /* Parallax suave de fondo */
+    .parallax {
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    @media (max-width: 768px) { .parallax { background-attachment: scroll; } }
+
+    /* Separador orgánico (línea + punto) */
+    .divider-dot::before,
+    .divider-dot::after {
+      content: "";
+      display: inline-block;
+      width: 50px; height: 1px;
+      background: currentColor;
+      vertical-align: middle;
+      opacity: .5;
+      margin: 0 1rem;
+    }
+
+    /* Texto con interlineado generoso para los párrafos largos */
+    .prose-holistic p { line-height: 1.9; }
+
+    /* Efecto sutil de elevación en tarjetas */
+    .card-hover { transition: transform .5s ease, box-shadow .5s ease; }
+    .card-hover:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(58,53,46,.25); }
+
+    /* Animación flotante suave (loto/ornamentos) */
+    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    .floaty { animation: floaty 6s ease-in-out infinite; }
+
+    /* Ken Burns sutil para el hero */
+    @keyframes kenburns { 0% { transform: scale(1); } 100% { transform: scale(1.12); } }
+    .kenburns { animation: kenburns 22s ease-out infinite alternate; }
+
+    /* Giro muy lento del círculo ritual (talleres) */
+    @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .ritual-spin { animation: spin-slow 60s linear infinite; }
+
+    /* Cinta de técnicas en movimiento continuo */
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee { width: max-content; animation: marquee 38s linear infinite; }
+    .marquee:hover { animation-play-state: paused; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ritual-spin, .kenburns, .floaty, .marquee { animation: none; }
+    }
+
+    /* ===== Desplegable personalizado (independiente del JIT del CDN) ===== */
+    #servicioList {
+      opacity: 0;
+      transform: translateY(-8px) scale(.97);
+      transform-origin: top center;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    #servicioSelect.open #servicioList {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    #servicioSelect.open #servicioChevron { transform: rotate(180deg); }
+
+    /* Opciones */
+    .svc-option { transition: background-color .18s ease; }
+    .svc-option:hover,
+    .svc-option.active { background-color: rgba(124,132,99,.12); } /* sage 12% */
+    .svc-option .check { opacity: 0; transition: opacity .18s ease; }
+    .svc-option[aria-selected="true"] .check { opacity: 1; }
+    .svc-option[aria-selected="true"] { background-color: rgba(124,132,99,.08); }
+
+    /* Subrayado decorativo */
+    .underline-soft { position: relative; }
+    .underline-soft::after {
+      content: ""; position: absolute; left: 50%; bottom: -14px;
+      transform: translateX(-50%);
+      width: 64px; height: 2px; background: #C0A062;
+    }
+  </style>
+</head>
+
+<body class="font-sans antialiased selection:bg-sage selection:text-cream">
+
+  <!-- ============================================================= -->
+  <!-- NAVEGACIÓN FIJA                                                -->
+  <!-- ============================================================= -->
+  <header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-500">
+    <nav class="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between py-4">
+      <!-- Logo / Marca -->
+      <a href="#inicio" class="group flex items-center gap-3">
+        <span class="text-3xl leading-none text-gold floaty">❀</span>
+        <span class="leading-tight">
+          <span class="block font-serif text-xl md:text-2xl tracking-wide text-ink group-hover:text-sage transition-colors">Helen Carpio</span>
+          <span class="block text-[10px] md:text-[11px] tracking-[0.3em] uppercase text-sage-dk">Psicología Holística</span>
+        </span>
+      </a>
+
+      <!-- Enlaces escritorio -->
+      <ul class="hidden xl:flex items-center gap-5 text-[13px] tracking-wide text-ink/80">
+        <li><a href="#quien-soy"  class="hover:text-sage transition-colors">Quién Soy</a></li>
+        <li><a href="#enfoque"    class="hover:text-sage transition-colors">Enfoque</a></li>
+        <li><a href="#especialidades" class="hover:text-sage transition-colors">Especialidades</a></li>
+        <li><a href="#servicios"  class="hover:text-sage transition-colors">Servicios</a></li>
+        <li><a href="#talleres"   class="hover:text-sage transition-colors">Talleres</a></li>
+        <li><a href="#terapias"   class="hover:text-sage transition-colors">Terapias</a></li>
+        <li><a href="#nutricion"  class="hover:text-sage transition-colors">Nutrición</a></li>
+        <li><a href="#casa-retiro" class="hover:text-sage transition-colors">Casa Retiro</a></li>
+        <li><a href="#eventos"    class="hover:text-sage transition-colors">Horarios</a></li>
+        <li><a href="#contacto"   class="hover:text-sage transition-colors">Contacto</a></li>
+      </ul>
+
+      <!-- CTA -->
+      <a href="https://wa.me/51947720840?text=Hola%20Helen,%20quisiera%20agendar%20una%20sesi%C3%B3n%20transformadora"
+         target="_blank" rel="noopener"
+         class="hidden md:inline-flex items-center gap-2 bg-sage hover:bg-sage-dk text-cream text-sm tracking-wide px-5 py-2.5 rounded-full transition-colors shadow-lg shadow-sage/20">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zM6.597 20.13c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.82 9.82 0 001.51 5.26l-.999 3.648 3.477-.707zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        Agenda tu sesión
+      </a>
+
+      <!-- Botón menú móvil -->
+      <button id="menuBtn" class="xl:hidden text-ink p-2" aria-label="Abrir menú">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"/></svg>
+      </button>
+    </nav>
+
+    <!-- Menú móvil desplegable -->
+    <div id="mobileMenu" class="xl:hidden hidden bg-cream/98 backdrop-blur border-t border-sand max-h-[80vh] overflow-auto">
+      <ul class="flex flex-col px-8 py-6 gap-3 text-ink/90 tracking-wide">
+        <li><a href="#quien-soy"  class="block py-1.5 mobile-link">Quién Soy</a></li>
+        <li><a href="#enfoque"    class="block py-1.5 mobile-link">Mi Enfoque</a></li>
+        <li><a href="#especialidades" class="block py-1.5 mobile-link">Especialidades</a></li>
+        <li><a href="#servicios"  class="block py-1.5 mobile-link">Servicios</a></li>
+        <li><a href="#talleres"   class="block py-1.5 mobile-link">Talleres</a></li>
+        <li><a href="#terapias"   class="block py-1.5 mobile-link">Terapias</a></li>
+        <li><a href="#nutricion"  class="block py-1.5 mobile-link">Nutrición</a></li>
+        <li><a href="#casa-retiro" class="block py-1.5 mobile-link">Casa Retiro</a></li>
+        <li><a href="#eventos"    class="block py-1.5 mobile-link">Horarios</a></li>
+        <li><a href="#testimonios" class="block py-1.5 mobile-link">Testimonios</a></li>
+        <li><a href="#contacto"   class="block py-1.5 mobile-link">Contacto</a></li>
+        <li>
+          <a href="https://wa.me/51947720840" target="_blank" rel="noopener"
+             class="mt-2 inline-flex w-full justify-center items-center gap-2 bg-sage text-cream px-5 py-3 rounded-full">
+            Agenda tu sesión por WhatsApp
+          </a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ============================================================= -->
+  <!-- 1 · HERO                                                       -->
+  <!-- ============================================================= -->
+  <section id="inicio" class="relative min-h-screen flex items-center overflow-hidden">
+    <!-- Fondo etéreo (mujer en meditación / naturaleza) con Ken Burns -->
+    <div class="absolute inset-0 kenburns bg-cover bg-center"
+         style="background-image:url('https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=2000&q=80');"></div>
+    <!-- Veladuras de color para integrar la paleta -->
+    <div class="absolute inset-0 bg-gradient-to-r from-cream/95 via-cream/70 to-sage-dk/30"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent"></div>
+
+    <div class="relative max-w-7xl mx-auto px-6 lg:px-10 w-full grid lg:grid-cols-12 gap-10 items-center pt-28 pb-16">
+      <!-- Texto -->
+      <div class="lg:col-span-7 text-center lg:text-left">
+        <p class="reveal text-sage-dk tracking-[0.3em] uppercase text-xs md:text-sm mb-6">Psi. Helen Carpio · Psicóloga Holística</p>
+        <h1 class="reveal delay-1 font-serif text-5xl sm:text-6xl md:text-7xl xl:text-8xl leading-[1.05] text-ink">
+          Sanar es<br><span class="italic text-sage">volver a ti</span>
+        </h1>
+        <p class="reveal delay-2 mt-8 text-lg md:text-xl text-ink/75 max-w-xl mx-auto lg:mx-0 font-light">
+          Psicología Holística · Acompañamiento Integral del Ser<br class="hidden sm:block" />
+          Cuerpo, Mente y Espíritu.
+        </p>
+        <div class="reveal delay-3 mt-10 flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+          <a href="https://wa.me/51947720840?text=Hola%20Helen,%20quisiera%20agendar%20una%20sesi%C3%B3n%20transformadora"
+             target="_blank" rel="noopener"
+             class="inline-flex items-center gap-3 bg-sage hover:bg-sage-dk text-cream tracking-wide px-8 py-4 rounded-full transition-all shadow-xl shadow-sage/30 hover:scale-[1.03]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zM6.597 20.13c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.82 9.82 0 001.51 5.26l-.999 3.648 3.477-.707z"/></svg>
+            Agenda tu sesión transformadora
+          </a>
+          <a href="#servicios" class="inline-flex items-center gap-2 text-ink/70 hover:text-sage tracking-wide px-4 py-4 transition-colors">
+            Conoce mis servicios
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Retrato de Helen integrado elegantemente (QuienSoy.png) -->
+      <div class="reveal delay-2 lg:col-span-5 flex justify-center lg:justify-end">
+        <div class="relative">
+          <div class="absolute -inset-4 rounded-[2.5rem] border border-gold/40 floaty"></div>
+          <div class="absolute -top-6 -left-6 text-5xl text-gold/70 floaty">❀</div>
+          <img src="images/QuienSoy.png" alt="Psi. Helen Carpio Andia, psicóloga holística, en su consultorio"
+               class="relative w-64 sm:w-80 md:w-96 h-[22rem] sm:h-[26rem] md:h-[30rem] object-cover rounded-[2.5rem] shadow-2xl shadow-ink/30 ring-1 ring-cream/40" />
+          <div class="absolute -bottom-6 -right-4 bg-cream/95 backdrop-blur px-6 py-4 rounded-2xl shadow-xl text-center">
+            <span class="block font-serif text-3xl text-sage leading-none">7+</span>
+            <span class="block text-[11px] tracking-widest uppercase text-ink/60 mt-1">años acompañando</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Indicador de scroll -->
+    <a href="#quien-soy" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-sage-dk/70 hover:text-sage transition-colors" aria-label="Desplázate hacia abajo">
+      <svg class="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+    </a>
+  </section>
+
+  <!-- Cinta de valores -->
+  <div class="bg-sage-dk text-cream/90">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-5 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-xs sm:text-sm tracking-[0.2em] uppercase">
+      <span class="flex items-center gap-2">✦ Espacio seguro</span>
+      <span class="flex items-center gap-2">✦ Confidencialidad</span>
+      <span class="flex items-center gap-2">✦ Calidez humana</span>
+      <span class="flex items-center gap-2">✦ Mirada integrativa</span>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- 2 · QUIÉN SOY                                                  -->
+  <!-- ============================================================= -->
+  <section id="quien-soy" class="relative py-24 md:py-32 bg-cream overflow-hidden">
+    <!-- Ornamento de fondo -->
+    <div class="absolute top-10 right-0 text-[18rem] leading-none text-sage/5 select-none pointer-events-none font-serif">❀</div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+      <!-- Imagen principal (QuienSoy.png) -->
+      <div class="reveal relative">
+        <div class="absolute -top-5 -left-5 w-full h-full rounded-[2rem] border border-sage/30"></div>
+        <img src="images/QuienSoy.png" alt="Helen Carpio, psicóloga holística, leyendo en consulta"
+             class="relative w-full h-[30rem] md:h-[36rem] object-cover rounded-[2rem] shadow-2xl shadow-ink/20" />
+        <!-- Tarjeta flotante -->
+        <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 lg:left-auto lg:right-8 lg:translate-x-0 bg-sage text-cream px-7 py-5 rounded-2xl shadow-2xl max-w-xs text-center">
+          <p class="font-serif italic text-lg">"Acompaño procesos, no solo síntomas."</p>
+        </div>
+      </div>
+
+      <!-- Texto -->
+      <div class="reveal delay-1 prose-holistic">
+        <p class="text-sage-dk tracking-[0.3em] uppercase text-xs mb-4">Quién Soy</p>
+        <h2 class="font-serif text-4xl md:text-5xl text-ink leading-tight mb-8">
+          Mg. Helen Carpio Andia
+        </h2>
+        <p class="text-ink/75 mb-5">
+          Soy psicóloga colegiada con <strong class="text-sage-dk font-medium">más de 7 años de experiencia</strong> acompañando a personas que atraviesan momentos de dolor, transición o búsqueda de sentido. Mi camino me llevó más allá de la psicología clínica tradicional: descubrí que sanar de verdad implica integrar <em>todo lo que somos</em>.
+        </p>
+        <p class="text-ink/75 mb-5">
+          Trabajo desde un enfoque <strong class="text-sage-dk font-medium">holístico e integrativo</strong>, donde cuerpo, mente, emoción y espíritu dejan de mirarse por separado para encontrarse. No vienes a "arreglar" algo que está roto: vienes a recordar quién eres bajo las capas que la vida fue depositando.
+        </p>
+        <p class="text-ink/75 mb-8">
+          Creo en los espacios seguros, en el respeto por tu ritmo y en una escucha sin juicio. Cada sesión es un encuentro humano, profundo y profundamente personal, donde tu historia es honrada y tu proceso, acompañado.
+        </p>
+
+        <!-- Mini credenciales -->
+        <div class="grid grid-cols-3 gap-4 mb-8">
+          <div class="text-center bg-beige/60 rounded-xl py-4">
+            <span class="block font-serif text-3xl text-sage">7+</span>
+            <span class="block text-[11px] tracking-wide text-ink/60 mt-1">Años de experiencia</span>
+          </div>
+          <div class="text-center bg-beige/60 rounded-xl py-4">
+            <span class="block font-serif text-3xl text-sage">+1k</span>
+            <span class="block text-[11px] tracking-wide text-ink/60 mt-1">Sesiones acompañadas</span>
+          </div>
+          <div class="text-center bg-beige/60 rounded-xl py-4">
+            <span class="block font-serif text-3xl text-sage">2</span>
+            <span class="block text-[11px] tracking-wide text-ink/60 mt-1">Sedes en Lima</span>
+          </div>
+        </div>
+
+        <!-- Aval académico -->
+        <div class="flex items-center gap-4 bg-cream border border-sand rounded-2xl px-5 py-4 mb-8">
+          <div class="w-12 h-12 shrink-0 rounded-full bg-sage/15 flex items-center justify-center text-xl">🎓</div>
+          <div>
+            <span class="block text-ink font-medium leading-tight">Formación de Posgrado · UNMSM</span>
+            <span class="block text-ink/60 text-sm">Universidad Nacional Mayor de San Marcos · Facultad de Medicina — Investigación y Posgrado en Psicología.</span>
+          </div>
+        </div>
+
+        <a href="https://wa.me/51947720840" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 text-sage-dk hover:text-sage font-medium tracking-wide border-b border-sage-dk/40 hover:border-sage pb-1 transition-colors">
+          Conversemos sobre tu proceso →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 3 · MI ENFOQUE HOLÍSTICO                                       -->
+  <!-- ============================================================= -->
+  <section id="enfoque" class="relative py-24 md:py-32 parallax text-cream"
+           style="background-image:linear-gradient(to bottom, rgba(58,53,46,.72), rgba(92,99,73,.82)), url('https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=2000&q=80');">
+    <div class="max-w-6xl mx-auto px-6 lg:px-10 text-center">
+      <p class="reveal tracking-[0.3em] uppercase text-xs text-cream/70 mb-4">Mi Enfoque Holístico</p>
+      <h2 class="reveal delay-1 font-serif text-4xl md:text-5xl lg:text-6xl leading-tight mb-6">
+        Integrar para sanar
+      </h2>
+      <p class="reveal delay-2 max-w-3xl mx-auto text-cream/85 text-lg font-light leading-relaxed mb-16">
+        No somos piezas sueltas. Lo que sentimos habita en el cuerpo, lo que pensamos moldea nuestras emociones, y nuestra esencia pide ser escuchada. Mi trabajo une la <strong class="font-medium text-cream">psicología clínica</strong> con herramientas somáticas, energéticas y de consciencia para acompañarte de forma completa.
+      </p>
+
+      <!-- Cuatro pilares -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Mente -->
+        <div class="reveal bg-cream/10 backdrop-blur-sm border border-cream/20 rounded-2xl p-8 card-hover">
+          <div class="text-4xl mb-4">🧠</div>
+          <h3 class="font-serif text-2xl mb-3">Mente</h3>
+          <p class="text-cream/75 text-sm leading-relaxed">Psicología clínica, reestructuración de pensamientos, mindfulness y manejo de la ansiedad.</p>
+        </div>
+        <!-- Emoción -->
+        <div class="reveal delay-1 bg-cream/10 backdrop-blur-sm border border-cream/20 rounded-2xl p-8 card-hover">
+          <div class="text-4xl mb-4">💛</div>
+          <h3 class="font-serif text-2xl mb-3">Emoción</h3>
+          <p class="text-cream/75 text-sm leading-relaxed">Gestión emocional, trabajo con el niño interior y sanación de heridas de la historia personal.</p>
+        </div>
+        <!-- Cuerpo -->
+        <div class="reveal delay-2 bg-cream/10 backdrop-blur-sm border border-cream/20 rounded-2xl p-8 card-hover">
+          <div class="text-4xl mb-4">🌿</div>
+          <h3 class="font-serif text-2xl mb-3">Cuerpo</h3>
+          <p class="text-cream/75 text-sm leading-relaxed">Técnicas somáticas, respiración consciente y terapias corporales que liberan tensión y memoria.</p>
+        </div>
+        <!-- Espíritu -->
+        <div class="reveal delay-3 bg-cream/10 backdrop-blur-sm border border-cream/20 rounded-2xl p-8 card-hover">
+          <div class="text-4xl mb-4">✨</div>
+          <h3 class="font-serif text-2xl mb-3">Espíritu</h3>
+          <p class="text-cream/75 text-sm leading-relaxed">Reconexión con tu esencia, sentido de vida, presencia y trabajo energético consciente.</p>
+        </div>
+      </div>
+
+      <p class="reveal mt-16 font-serif italic text-2xl md:text-3xl text-cream/90">
+        "No se trata de volverte otra persona,<br class="hidden sm:block" /> sino de volver a la que siempre fuiste."
+      </p>
+    </div>
+  </section>
+
+  <!-- Cinta animada de técnicas (motivo visual único) -->
+  <div class="bg-cream border-y border-sand overflow-hidden py-5">
+    <div class="marquee flex gap-10 whitespace-nowrap text-sage-dk/80 font-serif text-2xl md:text-3xl italic">
+      <!-- El bloque se repite dos veces para un loop continuo -->
+      <span class="flex items-center gap-10">
+        <span>Terapias Psicocinéticas</span><span class="text-gold not-italic">❀</span>
+        <span>Intervención Psicoterapéutica</span><span class="text-gold not-italic">❀</span>
+        <span>Terapia Floral</span><span class="text-gold not-italic">❀</span>
+        <span>Bioenergética</span><span class="text-gold not-italic">❀</span>
+        <span>Terapias Transpersonales</span><span class="text-gold not-italic">❀</span>
+      </span>
+      <span class="flex items-center gap-10" aria-hidden="true">
+        <span>Terapias Psicocinéticas</span><span class="text-gold not-italic">❀</span>
+        <span>Intervención Psicoterapéutica</span><span class="text-gold not-italic">❀</span>
+        <span>Terapia Floral</span><span class="text-gold not-italic">❀</span>
+        <span>Bioenergética</span><span class="text-gold not-italic">❀</span>
+        <span>Terapias Transpersonales</span><span class="text-gold not-italic">❀</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- 3.5 · ESPECIALIDADES & TÉCNICAS (tópicos UNMSM)               -->
+  <!-- ============================================================= -->
+  <section id="especialidades" class="relative py-24 md:py-32 bg-cream overflow-hidden">
+    <div class="absolute -top-10 -right-10 text-[16rem] leading-none text-sage/5 select-none pointer-events-none font-serif">❀</div>
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <p class="reveal text-sage-dk tracking-[0.3em] uppercase text-xs mb-4">Especialidades &amp; Técnicas</p>
+        <h2 class="reveal delay-1 font-serif text-4xl md:text-5xl text-ink leading-tight underline-soft inline-block">
+          Herramientas que integro
+        </h2>
+        <p class="reveal delay-2 mt-10 text-ink/70 font-light">
+          Mi formación une la psicología clínica con disciplinas integrativas y transpersonales. Estas son algunas de las técnicas que combino —siempre de forma personalizada— para acompañar tu proceso de sanación.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- 1 -->
+        <div class="reveal group relative bg-beige/40 rounded-2xl p-8 card-hover border border-sand/60 overflow-hidden">
+          <span class="absolute top-5 right-6 font-serif text-5xl text-sage/15 group-hover:text-sage/30 transition-colors">01</span>
+          <div class="w-14 h-14 rounded-full bg-sage/15 flex items-center justify-center text-2xl mb-5">🌀</div>
+          <h3 class="font-serif text-2xl text-ink mb-3">Terapias Psicocinéticas</h3>
+          <p class="text-ink/65 text-sm leading-relaxed">El movimiento y el cuerpo como vía para liberar emociones contenidas y reconectar con tu energía vital.</p>
+        </div>
+        <!-- 2 -->
+        <div class="reveal delay-1 group relative bg-beige/40 rounded-2xl p-8 card-hover border border-sand/60 overflow-hidden">
+          <span class="absolute top-5 right-6 font-serif text-5xl text-sage/15 group-hover:text-sage/30 transition-colors">02</span>
+          <div class="w-14 h-14 rounded-full bg-terra/15 flex items-center justify-center text-2xl mb-5">🗣️</div>
+          <h3 class="font-serif text-2xl text-ink mb-3">Intervención Psicoterapéutica</h3>
+          <p class="text-ink/65 text-sm leading-relaxed">Psicoterapia clínica basada en evidencia para comprender, sanar y transformar lo que hoy te limita.</p>
+        </div>
+        <!-- 3 -->
+        <div class="reveal delay-2 group relative bg-beige/40 rounded-2xl p-8 card-hover border border-sand/60 overflow-hidden">
+          <span class="absolute top-5 right-6 font-serif text-5xl text-sage/15 group-hover:text-sage/30 transition-colors">03</span>
+          <div class="w-14 h-14 rounded-full bg-gold/20 flex items-center justify-center text-2xl mb-5">🌸</div>
+          <h3 class="font-serif text-2xl text-ink mb-3">Terapia Floral</h3>
+          <p class="text-ink/65 text-sm leading-relaxed">Esencias florales que acompañan el equilibrio emocional de manera suave, natural y respetuosa.</p>
+        </div>
+        <!-- 4 -->
+        <div class="reveal group relative bg-beige/40 rounded-2xl p-8 card-hover border border-sand/60 overflow-hidden">
+          <span class="absolute top-5 right-6 font-serif text-5xl text-sage/15 group-hover:text-sage/30 transition-colors">04</span>
+          <div class="w-14 h-14 rounded-full bg-sage/15 flex items-center justify-center text-2xl mb-5">✨</div>
+          <h3 class="font-serif text-2xl text-ink mb-3">Bioenergética</h3>
+          <p class="text-ink/65 text-sm leading-relaxed">Trabajo con la energía del cuerpo para soltar bloqueos, liberar tensión y restaurar tu equilibrio interno.</p>
+        </div>
+        <!-- 5 -->
+        <div class="reveal delay-1 group relative bg-beige/40 rounded-2xl p-8 card-hover border border-sand/60 overflow-hidden">
+          <span class="absolute top-5 right-6 font-serif text-5xl text-sage/15 group-hover:text-sage/30 transition-colors">05</span>
+          <div class="w-14 h-14 rounded-full bg-terra/15 flex items-center justify-center text-2xl mb-5">🕊️</div>
+          <h3 class="font-serif text-2xl text-ink mb-3">Terapias Transpersonales</h3>
+          <p class="text-ink/65 text-sm leading-relaxed">Una mirada que integra consciencia, sentido y espiritualidad para reconectar con tu dimensión más profunda.</p>
+        </div>
+        <!-- CTA card -->
+        <div class="reveal delay-2 group relative bg-sage text-cream rounded-2xl p-8 card-hover flex flex-col justify-center">
+          <p class="font-serif text-2xl mb-4 leading-snug">¿No sabes cuál es para ti?</p>
+          <p class="text-cream/80 text-sm mb-6">En una primera conversación diseñamos juntas el camino más adecuado para tu momento.</p>
+          <a href="https://wa.me/51947720840" target="_blank" rel="noopener"
+             class="inline-flex w-max items-center gap-2 bg-cream text-sage-dk font-medium tracking-wide px-5 py-3 rounded-full hover:bg-beige transition-colors">
+            Conversemos →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 4 · SERVICIOS                                                  -->
+  <!-- ============================================================= -->
+  <section id="servicios" class="py-24 md:py-32 bg-beige/40">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <!-- Encabezado -->
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <p class="reveal text-sage-dk tracking-[0.3em] uppercase text-xs mb-4">Servicios</p>
+        <h2 class="reveal delay-1 font-serif text-4xl md:text-5xl text-ink leading-tight underline-soft inline-block">
+          Acompañamiento para cada etapa
+        </h2>
+        <p class="reveal delay-2 mt-10 text-ink/70 font-light">
+          Cada servicio nace de una mirada integral: atiendo a la persona completa, en su momento de vida y dentro de sus vínculos.
+        </p>
+      </div>
+
+      <!-- Grid de servicios -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Terapia Individual -->
+        <div class="reveal group bg-cream rounded-2xl p-8 card-hover border border-sand/60">
+          <div class="w-14 h-14 rounded-full bg-sage/15 flex items-center justify-center text-2xl mb-5">🌿</div>
+          <h3 class="font-serif text-2xl text-ink mb-3">Terapia Individual Holística</h3>
+          <p class="text-ink/65 text-sm leading-relaxed">Un espacio para ti: ansiedad, duelos, autoestima, propósito y reconexión personal, integrando mente, cuerpo y emoción.</p>
+        </div>
+
+        <!-- Terapia Infantil -->
+        <div class="reveal delay-1 group bg-cream rounded-2xl p-8 card-hover border border-sand/60">
+          <div class="w-14 h-14 rounded-full bg-terra/15 flex items-center justify-center text-2xl mb-5">🧸</div>
+          <h3 class="font-serif text-2xl text-ink mb-3">Terapia Infantil</h3>
+          <p class="text-ink/65 text-sm leading-relaxed">Enfoque lúdico y amoroso. A través del juego, las y los niños expresan, regulan emociones y fortalecen su seguridad.</p>
+        </div>
+
+        <!-- Terapia Adolescente -->
+        <div class="reveal delay-2 group bg-cream rounded-2xl p-8 card-hover border border-sand/60">
+          <div class="w-14 h-14 rounded-full bg-gold/20 flex items-center justify-center text-2xl mb-5">🌻</div>
+          <h3 class="font-serif text-2xl text-ink mb-3">Terapia Adolescente</h3>
+          <p class="text-ink/65 text-sm leading-relaxed">Un acompañamiento cercano para transitar identidad, vínculos, presión social y emociones intensas sin sentirse solo.</p>
+        </div>
+
+        <!-- Terapia Familiar -->
+        <div class="reveal group bg-cream rounded-2xl p-8 card-hover border border-sand/60">
+          <div class="w-14 h-14 rounded-full bg-terra/15 flex items-center justify-center text-2xl mb-5">🏡</div>
+          <h3 class="font-serif text-2xl text-ink mb-3">Terapia Familiar</h3>
+          <p class="text-ink/65 text-sm leading-relaxed">Acompaño a las familias a comprenderse, poner límites sanos y transformar dinámicas que generan dolor.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 6 · EXPERIENCIA EN TALLERES (flyer Volver a Mí)               -->
+  <!-- ============================================================= -->
+  <section id="talleres" class="relative py-24 md:py-32 bg-gradient-to-b from-terra/10 via-cream to-cream overflow-hidden">
+    <div class="absolute -bottom-10 -left-10 text-[16rem] leading-none text-terra/5 select-none pointer-events-none">❀</div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <p class="reveal text-terra tracking-[0.3em] uppercase text-xs mb-4">Experiencia en Talleres</p>
+        <h2 class="reveal delay-1 font-serif text-4xl md:text-5xl text-ink leading-tight">
+          El alma de <span class="italic text-terra">"Volver a Mí"</span>
+        </h2>
+        <p class="reveal delay-2 mt-8 text-ink/70 font-light">
+          Un círculo seguro, íntimo y confidencial para escucharte, compartir y reconectar contigo misma desde el respeto, el amor y la presencia. Por respeto a quienes participan, cuidamos cada encuentro como un espacio privado.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-12 gap-10 items-center">
+        <!-- Círculo ritual · composición decorativa única (sin fotos privadas) -->
+        <div class="reveal lg:col-span-5">
+          <div class="relative aspect-square w-full max-w-md mx-auto">
+            <!-- Halo exterior y anillos concéntricos -->
+            <div class="absolute inset-0 rounded-full bg-gradient-to-br from-terra/20 via-sand/40 to-cream"></div>
+            <div class="absolute inset-[6%] rounded-full border border-terra/25"></div>
+            <div class="absolute inset-[16%] rounded-full border border-gold/30"></div>
+            <div class="absolute inset-[26%] rounded-full border border-sage/25"></div>
+
+            <!-- Velas dispuestas en círculo (giran suavemente) -->
+            <div class="ritual-spin absolute inset-0">
+              <span class="absolute left-1/2 top-[3%] -translate-x-1/2 text-2xl">🕯️</span>
+              <span class="absolute right-[10%] top-[20%] text-xl">✦</span>
+              <span class="absolute right-[3%] top-1/2 -translate-y-1/2 text-2xl">🪷</span>
+              <span class="absolute right-[10%] bottom-[20%] text-xl">✦</span>
+              <span class="absolute left-1/2 bottom-[3%] -translate-x-1/2 text-2xl">🕯️</span>
+              <span class="absolute left-[10%] bottom-[20%] text-xl">✦</span>
+              <span class="absolute left-[3%] top-1/2 -translate-y-1/2 text-2xl">🌿</span>
+              <span class="absolute left-[10%] top-[20%] text-xl">✦</span>
+            </div>
+
+            <!-- Emblema central -->
+            <div class="absolute inset-[30%] rounded-full bg-cream shadow-2xl shadow-ink/15 flex flex-col items-center justify-center text-center px-4">
+              <span class="text-3xl text-terra mb-1 floaty">❀</span>
+              <span class="font-serif text-2xl leading-tight text-ink">Un espacio<br>para volver<br>a ti</span>
+              <span class="mt-2 text-[10px] tracking-[0.3em] uppercase text-terra">Volver a Mí</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lo que vives -->
+        <div class="reveal delay-1 lg:col-span-7">
+          <div class="grid sm:grid-cols-2 gap-6">
+            <div class="bg-cream rounded-2xl p-7 border border-sand/60 card-hover">
+              <div class="text-3xl mb-3">🤲</div>
+              <h3 class="font-serif text-xl text-ink mb-2">Dinámicas vivenciales</h3>
+              <p class="text-ink/65 text-sm">Y de autoconocimiento, para mirarte con honestidad y ternura.</p>
+            </div>
+            <div class="bg-cream rounded-2xl p-7 border border-sand/60 card-hover">
+              <div class="text-3xl mb-3">🪷</div>
+              <h3 class="font-serif text-xl text-ink mb-2">Reflexión y crecimiento</h3>
+              <p class="text-ink/65 text-sm">Espacios de pausa y consciencia para tu crecimiento personal.</p>
+            </div>
+            <div class="bg-cream rounded-2xl p-7 border border-sand/60 card-hover">
+              <div class="text-3xl mb-3">🕯️</div>
+              <h3 class="font-serif text-xl text-ink mb-2">Ambiente cálido e íntimo</h3>
+              <p class="text-ink/65 text-sm">Velas, alfombras y un círculo respetuoso que te sostiene.</p>
+            </div>
+            <div class="bg-cream rounded-2xl p-7 border border-sand/60 card-hover">
+              <div class="text-3xl mb-3">💗</div>
+              <h3 class="font-serif text-xl text-ink mb-2">Acompañamiento humano</h3>
+              <p class="text-ink/65 text-sm">Guía profesional y cercana durante todo el encuentro.</p>
+            </div>
+          </div>
+
+          <div class="mt-8 flex items-center gap-4 bg-terra/10 rounded-2xl px-6 py-5">
+            <span class="font-serif text-2xl text-terra italic shrink-0">Un espacio para volver a ti.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 5 · TERAPIAS Y TÉCNICAS (infografía de masajes)               -->
+  <!-- ============================================================= -->
+  <section id="terapias" class="py-24 md:py-32 bg-cream">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <p class="reveal text-sage-dk tracking-[0.3em] uppercase text-xs mb-4">Terapias y Técnicas Complementarias</p>
+        <h2 class="reveal delay-1 font-serif text-4xl md:text-5xl text-ink leading-tight">
+          Tu bienestar, nuestra prioridad
+        </h2>
+        <p class="reveal delay-2 mt-8 text-ink/70 font-light">
+          El cuerpo también guarda memoria emocional. Estas terapias corporales acompañan el proceso psicológico, liberando tensión y devolviendo equilibrio. Cada sesión es personalizada según tus necesidades.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <!-- Infografía real -->
+        <div class="reveal">
+          <img src="images/terapias-masajes.png" alt="Infografía de masajes terapéuticos: relajantes, descontracturantes, antiestrés, para el dolor, acupuntura, ultrasonido y más"
+               class="w-full rounded-2xl shadow-2xl shadow-ink/20 border border-sand" />
+        </div>
+
+        <!-- Lista de técnicas -->
+        <div class="reveal delay-1">
+          <h3 class="font-serif text-3xl text-ink mb-2">Masajes terapéuticos</h3>
+          <p class="text-ink/60 text-sm mb-8">Cuerpo · Mente · Equilibrio</p>
+
+          <div class="grid sm:grid-cols-2 gap-x-8 gap-y-5">
+            <!-- cada técnica -->
+            <div class="flex items-start gap-3"><span class="text-sage mt-1">✦</span><div><span class="block text-ink font-medium">Masaje relajante</span><span class="text-ink/60 text-sm">Alivia el estrés y la tensión.</span></div></div>
+            <div class="flex items-start gap-3"><span class="text-sage mt-1">✦</span><div><span class="block text-ink font-medium">Descontracturante</span><span class="text-ink/60 text-sm">Libera contracturas musculares.</span></div></div>
+            <div class="flex items-start gap-3"><span class="text-sage mt-1">✦</span><div><span class="block text-ink font-medium">Antiestrés</span><span class="text-ink/60 text-sm">Reduce la ansiedad y equilibra.</span></div></div>
+            <div class="flex items-start gap-3"><span class="text-sage mt-1">✦</span><div><span class="block text-ink font-medium">Para el dolor</span><span class="text-ink/60 text-sm">Disminuye el dolor físico.</span></div></div>
+            <div class="flex items-start gap-3"><span class="text-sage mt-1">✦</span><div><span class="block text-ink font-medium">Acupuntura</span><span class="text-ink/60 text-sm">Potencia los resultados.</span></div></div>
+            <div class="flex items-start gap-3"><span class="text-sage mt-1">✦</span><div><span class="block text-ink font-medium">Aceites y cremas</span><span class="text-ink/60 text-sm">Nutren y alivian tensiones.</span></div></div>
+            <div class="flex items-start gap-3"><span class="text-sage mt-1">✦</span><div><span class="block text-ink font-medium">Corriente analgésica</span><span class="text-ink/60 text-sm">Reduce la inflamación.</span></div></div>
+            <div class="flex items-start gap-3"><span class="text-sage mt-1">✦</span><div><span class="block text-ink font-medium">Ultrasonido</span><span class="text-ink/60 text-sm">Acelera la recuperación.</span></div></div>
+            <div class="flex items-start gap-3"><span class="text-sage mt-1">✦</span><div><span class="block text-ink font-medium">Masaje con maderas</span><span class="text-ink/60 text-sm">Tonifica y modela la piel.</span></div></div>
+            <div class="flex items-start gap-3"><span class="text-sage mt-1">✦</span><div><span class="block text-ink font-medium">Gimnasia pasiva</span><span class="text-ink/60 text-sm">Tonificación y reducción.</span></div></div>
+          </div>
+
+          <div class="mt-8 bg-sage-dk text-cream rounded-2xl px-6 py-5">
+            <p class="font-serif italic text-lg">"Relájate, sana y renueva tu energía."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 5.5 · NUTRICIÓN CONSCIENTE                                     -->
+  <!-- Basado en el libro "Alimentación Consciente" (B. Sandoval)    -->
+  <!-- ============================================================= -->
+  <section id="nutricion" class="relative py-24 md:py-32 bg-gradient-to-b from-sage-dk to-[#4b5139] text-cream overflow-hidden">
+    <!-- Ornamento -->
+    <div class="absolute -bottom-16 -right-16 text-[20rem] leading-none text-cream/5 select-none pointer-events-none font-serif">🌿</div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 relative">
+      <!-- Encabezado -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <p class="reveal tracking-[0.3em] uppercase text-xs text-cream/70 mb-4">Nutrición Consciente</p>
+        <h2 class="reveal delay-1 font-serif text-4xl md:text-5xl lg:text-6xl leading-tight">
+          La comida como <span class="italic text-gold">medicina</span>
+        </h2>
+        <p class="reveal delay-2 mt-8 text-cream/80 font-light leading-relaxed">
+          Comer es un acto de amor propio. La alimentación consciente es prestar atención plena a lo que llevamos al cuerpo, no como una dieta restrictiva, sino como una forma de honrar tu energía vital. Estas recomendaciones integran ciencia, nutrición y una mirada holística para acompañar tu proceso de sanación también desde el plato.
+        </p>
+        <p class="reveal delay-3 mt-6 font-serif italic text-xl md:text-2xl text-gold">
+          "Que el alimento sea tu medicina y que tu medicina sea tu alimento." — Hipócrates
+        </p>
+      </div>
+
+      <!-- Los 4 pilares de la alimentación consciente -->
+      <div class="reveal mb-16">
+        <h3 class="font-serif text-2xl md:text-3xl text-center mb-10">Los 4 principios de una alimentación saludable</h3>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-cream/10 backdrop-blur-sm border border-cream/15 rounded-2xl p-7 card-hover">
+            <div class="text-3xl mb-4">🥗</div>
+            <h4 class="font-serif text-xl mb-2">Completa</h4>
+            <p class="text-cream/75 text-sm leading-relaxed">Variada y con todos los nutrientes: carbohidratos, proteínas, grasas saludables, vitaminas, minerales y agua.</p>
+          </div>
+          <div class="bg-cream/10 backdrop-blur-sm border border-cream/15 rounded-2xl p-7 card-hover">
+            <div class="text-3xl mb-4">⚖️</div>
+            <h4 class="font-serif text-xl mb-2">Equilibrada</h4>
+            <p class="text-cream/75 text-sm leading-relaxed">Una proporción diaria armónica: 50–65% carbohidratos, 14–20% proteínas y 30–35% grasas saludables.</p>
+          </div>
+          <div class="bg-cream/10 backdrop-blur-sm border border-cream/15 rounded-2xl p-7 card-hover">
+            <div class="text-3xl mb-4">🌱</div>
+            <h4 class="font-serif text-xl mb-2">Suficiente</h4>
+            <p class="text-cream/75 text-sm leading-relaxed">Solo la energía que tu cuerpo necesita cada día, escuchando tus señales reales de hambre y saciedad.</p>
+          </div>
+          <div class="bg-cream/10 backdrop-blur-sm border border-cream/15 rounded-2xl p-7 card-hover">
+            <div class="text-3xl mb-4">💧</div>
+            <h4 class="font-serif text-xl mb-2">Inocua</h4>
+            <p class="text-cream/75 text-sm leading-relaxed">Alimentos preparados con higiene, que tu cuerpo aproveche al máximo sin riesgo ni desgaste innecesario.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recomendaciones prácticas + imagen -->
+      <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+        <div class="reveal order-2 lg:order-1">
+          <h3 class="font-serif text-2xl md:text-3xl mb-6">Recomendaciones para tu día a día</h3>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3"><span class="text-gold mt-1 shrink-0">✦</span><p class="text-cream/85"><strong class="text-cream">Vuelve a lo natural.</strong> Prioriza alimentos que vengan directamente de la tierra y reduce los ultraprocesados.</p></li>
+            <li class="flex items-start gap-3"><span class="text-gold mt-1 shrink-0">✦</span><p class="text-cream/85"><strong class="text-cream">Más plantas en tu plato.</strong> Verduras, hortalizas, legumbres, cereales integrales y semillas como base de tu alimentación.</p></li>
+            <li class="flex items-start gap-3"><span class="text-gold mt-1 shrink-0">✦</span><p class="text-cream/85"><strong class="text-cream">Equilibra ácido y alcalino.</strong> Aumenta los alimentos alcalinos (vegetales) y reduce los ácidos (procesados y exceso de origen animal).</p></li>
+            <li class="flex items-start gap-3"><span class="text-gold mt-1 shrink-0">✦</span><p class="text-cream/85"><strong class="text-cream">Mejora la biodisponibilidad.</strong> Remoja, germina y fermenta legumbres y cereales para absorber mejor hierro, calcio y zinc.</p></li>
+            <li class="flex items-start gap-3"><span class="text-gold mt-1 shrink-0">✦</span><p class="text-cream/85"><strong class="text-cream">Come con presencia.</strong> Sin pantallas, masticando con calma y agradeciendo. La digestión empieza en la atención plena.</p></li>
+            <li class="flex items-start gap-3"><span class="text-gold mt-1 shrink-0">✦</span><p class="text-cream/85"><strong class="text-cream">Hidrátate y muévete.</strong> El agua y el ejercicio son la primera medicina: reducen el cortisol y la inflamación.</p></li>
+          </ul>
+        </div>
+        <div class="reveal delay-1 order-1 lg:order-2">
+          <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1200&q=80"
+               alt="Plato saludable de vegetales frescos, base de la alimentación consciente"
+               class="w-full h-80 lg:h-96 object-cover rounded-3xl shadow-2xl shadow-ink/30 ring-1 ring-cream/20" loading="lazy" />
+        </div>
+      </div>
+
+      <!-- Minerales tesoro -->
+      <div class="reveal mb-16">
+        <h3 class="font-serif text-2xl md:text-3xl text-center mb-3">Minerales tesoro para tu energía</h3>
+        <p class="text-center text-cream/70 font-light max-w-2xl mx-auto mb-10">El magnesio participa en más de 300 reacciones bioquímicas del cuerpo. Junto al hierro, el potasio y el fósforo, son aliados de tu vitalidad y tu estado de ánimo.</p>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-cream/10 border border-cream/15 rounded-2xl p-6 text-center card-hover">
+            <div class="text-3xl mb-3">🍫</div>
+            <h4 class="font-serif text-lg mb-1">Magnesio</h4>
+            <p class="text-cream/70 text-sm">Cacao puro, sésamo, semillas y hojas verdes. Clave para la energía y la calma.</p>
+          </div>
+          <div class="bg-cream/10 border border-cream/15 rounded-2xl p-6 text-center card-hover">
+            <div class="text-3xl mb-3">🌰</div>
+            <h4 class="font-serif text-lg mb-1">Hierro</h4>
+            <p class="text-cream/70 text-sm">Legumbres, semillas y verduras de hoja. Esencial para el oxígeno y el ánimo.</p>
+          </div>
+          <div class="bg-cream/10 border border-cream/15 rounded-2xl p-6 text-center card-hover">
+            <div class="text-3xl mb-3">🍌</div>
+            <h4 class="font-serif text-lg mb-1">Potasio</h4>
+            <p class="text-cream/70 text-sm">Cacao, plátano y frutos secos. Apoya el corazón y el sistema muscular.</p>
+          </div>
+          <div class="bg-cream/10 border border-cream/15 rounded-2xl p-6 text-center card-hover">
+            <div class="text-3xl mb-3">🌻</div>
+            <h4 class="font-serif text-lg mb-1">Fósforo</h4>
+            <p class="text-cream/70 text-sm">Semillas, frutos secos y legumbres. Sostiene huesos y energía celular.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ayuno consciente -->
+      <div class="reveal grid lg:grid-cols-2 gap-12 items-center mb-12">
+        <div class="order-1">
+          <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1200&q=80"
+               alt="Tazón de alimentos frescos y conscientes para el ayuno intermitente"
+               class="w-full h-80 lg:h-96 object-cover rounded-3xl shadow-2xl shadow-ink/30 ring-1 ring-cream/20" loading="lazy" />
+        </div>
+        <div class="order-2">
+          <h3 class="font-serif text-2xl md:text-3xl mb-6">El ayuno consciente</h3>
+          <p class="text-cream/85 mb-5 leading-relaxed">Más que dejar de comer, el ayuno intermitente es un descanso para el sistema digestivo. Tras unas 16 horas, el cuerpo inicia la <strong class="text-cream">autofagia</strong>: una limpieza celular profunda donde se renueva y quema grasa como energía.</p>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="bg-cream/10 border border-cream/15 rounded-xl p-5">
+              <h4 class="font-medium text-gold mb-1">Beneficios</h4>
+              <p class="text-cream/75 text-sm">Más energía y vitalidad, mejor digestión, depuración, equilibrio del peso y del ánimo.</p>
+            </div>
+            <div class="bg-cream/10 border border-cream/15 rounded-xl p-5">
+              <h4 class="font-medium text-gold mb-1">Con cuidado</h4>
+              <p class="text-cream/75 text-sm">Siempre según tu condición médica. Hidrátate bien y atiende mareos o emociones intensas.</p>
+            </div>
+          </div>
+          <p class="text-cream/60 text-xs mt-5 italic">Esta información es orientativa y no reemplaza una consulta médica o nutricional personalizada.</p>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="reveal text-center">
+        <a href="https://wa.me/51947720840?text=Hola%20Helen,%20me%20interesa%20una%20asesor%C3%ADa%20de%20nutrici%C3%B3n%20consciente"
+           target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 bg-cream text-sage-dk font-medium tracking-wide px-8 py-4 rounded-full hover:bg-beige transition-colors shadow-xl">
+          Quiero acompañamiento en nutrición consciente →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 7 · TESTIMONIOS                                                -->
+  <!-- ============================================================= -->
+  <section id="testimonios" class="py-24 md:py-32 bg-sage-dk text-cream relative overflow-hidden">
+    <div class="absolute top-10 left-10 text-[10rem] leading-none text-cream/5 font-serif select-none pointer-events-none">"</div>
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 relative">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <p class="reveal tracking-[0.3em] uppercase text-xs text-cream/70 mb-4">Testimonios</p>
+        <h2 class="reveal delay-1 font-serif text-4xl md:text-5xl leading-tight">Historias de reconexión</h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Testimonio 1 -->
+        <figure class="reveal bg-cream/10 backdrop-blur-sm border border-cream/15 rounded-2xl p-8 card-hover">
+          <div class="text-gold text-xl mb-4">★★★★★</div>
+          <blockquote class="text-cream/90 font-light leading-relaxed mb-6">"Llegué rota y sin esperanza. Helen me ayudó a reencontrarme conmigo misma con una calidez que nunca había sentido en terapia. Hoy vuelvo a respirar."</blockquote>
+          <figcaption class="text-sm">
+            <span class="block font-medium text-cream">Mariana L.</span>
+            <span class="text-cream/60">Terapia individual</span>
+          </figcaption>
+        </figure>
+        <!-- Testimonio 2 -->
+        <figure class="reveal delay-1 bg-cream/10 backdrop-blur-sm border border-cream/15 rounded-2xl p-8 card-hover">
+          <div class="text-gold text-xl mb-4">★★★★★</div>
+          <blockquote class="text-cream/90 font-light leading-relaxed mb-6">"Como pareja estábamos al borde de rendirnos. Su acompañamiento nos devolvió la escucha y el respeto. Aprendimos a volver a vernos."</blockquote>
+          <figcaption class="text-sm">
+            <span class="block font-medium text-cream">Jorge &amp; Carla</span>
+            <span class="text-cream/60">Terapia de pareja</span>
+          </figcaption>
+        </figure>
+        <!-- Testimonio 3 -->
+        <figure class="reveal delay-2 bg-cream/10 backdrop-blur-sm border border-cream/15 rounded-2xl p-8 card-hover">
+          <div class="text-gold text-xl mb-4">★★★★★</div>
+          <blockquote class="text-cream/90 font-light leading-relaxed mb-6">"El taller 'Volver a Mí' fue un antes y un después. Por primera vez sentí un espacio realmente seguro para soltar y reconocerme. Salí renovada."</blockquote>
+          <figcaption class="text-sm">
+            <span class="block font-medium text-cream">Andrea P.</span>
+            <span class="text-cream/60">Taller vivencial</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <p class="reveal text-center mt-14 text-cream/70 font-light">
+        Tu historia también puede transformarse. <a href="https://wa.me/51947720840" target="_blank" rel="noopener" class="text-gold underline-offset-4 hover:underline">Da el primer paso →</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 8.5 · CASA DE RETIRO (proyecto / visión)                      -->
+  <!-- ============================================================= -->
+  <section id="casa-retiro" class="relative py-24 md:py-32 bg-cream overflow-hidden">
+    <div class="absolute top-10 left-0 text-[16rem] leading-none text-sage/5 select-none pointer-events-none font-serif">⛰️</div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 relative">
+      <!-- Encabezado -->
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <p class="reveal text-sage-dk tracking-[0.3em] uppercase text-xs mb-4">Casa de Retiro · Próximamente</p>
+        <h2 class="reveal delay-1 font-serif text-4xl md:text-5xl text-ink leading-tight underline-soft inline-block">
+          Un refugio para sanar
+        </h2>
+        <p class="reveal delay-2 mt-10 text-ink/70 font-light leading-relaxed">
+          Soñamos con un espacio en plena naturaleza donde el alma pueda descansar: una casa de retiro holística para vivir procesos profundos de sanación, lejos del ruido y cerca de tu esencia. Este es un <strong class="text-sage-dk">proyecto en desarrollo</strong>, y queremos que lo imagines con nosotras.
+        </p>
+      </div>
+
+      <!-- Imagen principal (visión) -->
+      <div class="reveal mb-16 relative">
+        <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=2000&q=80"
+             alt="Vivienda holística rodeada de naturaleza: visión de la futura casa de retiro"
+             class="w-full h-72 md:h-[28rem] object-cover rounded-3xl shadow-2xl shadow-ink/20" loading="lazy" />
+        <!-- Etiqueta de render conceptual -->
+        <span class="absolute top-5 left-5 bg-ink/70 text-cream text-[11px] tracking-widest uppercase px-4 py-2 rounded-full backdrop-blur">Imagen referencial · proyecto en construcción</span>
+        <!-- Cita flotante -->
+        <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 lg:left-10 lg:translate-x-0 bg-sage text-cream px-7 py-5 rounded-2xl shadow-2xl max-w-sm text-center lg:text-left">
+          <p class="font-serif italic text-lg">"Un lugar donde la naturaleza también te sostiene."</p>
+        </div>
+      </div>
+
+      <!-- Lo que vivirás -->
+      <div class="flex justify-center mb-16 mt-12">
+        <div class="reveal bg-beige/40 rounded-2xl p-8 border border-sand/60 card-hover max-w-md text-center">
+          <div class="w-14 h-14 rounded-full bg-sage/15 flex items-center justify-center text-2xl mb-5 mx-auto">🧘‍♀️</div>
+          <h3 class="font-serif text-2xl text-ink mb-3">Retiros de sanación</h3>
+          <p class="text-ink/65 text-sm leading-relaxed">Jornadas de desconexión para reencontrarte: meditación, silencio consciente y trabajo emocional profundo.</p>
+        </div>
+      </div>
+
+      <!-- Mini galería de inspiración -->
+      <div class="reveal grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Espacio sereno e iluminado de la casa de retiro" class="h-40 md:h-52 w-full object-cover rounded-2xl shadow-lg" loading="lazy" />
+        <img src="https://images.unsplash.com/photo-1545048702-79362596cdc9?auto=format&fit=crop&w=800&q=80" alt="Rincón de meditación junto a la naturaleza" class="h-40 md:h-52 w-full object-cover rounded-2xl shadow-lg" loading="lazy" />
+        <img src="https://images.unsplash.com/photo-1494203484021-3c454daf695d?auto=format&fit=crop&w=800&q=80" alt="Jardín y vegetación del refugio holístico" class="h-40 md:h-52 w-full object-cover rounded-2xl shadow-lg" loading="lazy" />
+        <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80" alt="Habitación cálida y natural para el descanso" class="h-40 md:h-52 w-full object-cover rounded-2xl shadow-lg" loading="lazy" />
+      </div>
+
+      <!-- CTA -->
+      <div class="reveal text-center bg-sage-dk text-cream rounded-3xl px-8 py-12">
+        <p class="font-serif text-2xl md:text-3xl mb-4">¿Te gustaría ser parte de este sueño?</p>
+        <p class="text-cream/80 font-light max-w-xl mx-auto mb-8">Déjanos tu interés y serás de las primeras personas en conocer las fechas de apertura, retiros piloto y novedades de la casa.</p>
+        <a href="https://wa.me/51947720840?text=Hola%20Helen,%20quiero%20saber%20m%C3%A1s%20sobre%20la%20Casa%20de%20Retiro"
+           target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 bg-cream text-sage-dk font-medium tracking-wide px-8 py-4 rounded-full hover:bg-beige transition-colors shadow-xl">
+          Quiero recibir novedades →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 8 · AGENDA · HORARIOS Y EVENTOS (dinámico desde Supabase)     -->
+  <!-- ============================================================= -->
+  <section id="eventos" class="py-24 md:py-32 bg-beige/40">
+    <div class="max-w-6xl mx-auto px-6 lg:px-10">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="reveal text-sage-dk tracking-[0.3em] uppercase text-xs mb-4">Agenda · Reserva tu espacio</p>
+        <h2 class="reveal delay-1 font-serif text-4xl md:text-5xl text-ink leading-tight">Encuentros para volver a ti</h2>
+        <p class="reveal delay-2 mt-8 text-ink/70 font-light">Elige un horario disponible o inscríbete en un evento. Te conectaré directamente por WhatsApp para confirmar tu reserva.</p>
+      </div>
+
+      <!-- Pestañas públicas -->
+      <div class="reveal flex justify-center mb-10">
+        <div class="inline-flex bg-cream border border-sand rounded-full p-1 shadow-sm">
+          <button id="pubTabHorarios" class="agenda-tab px-7 py-2.5 rounded-full text-sm font-medium transition-colors bg-sage text-cream">🗓️ Horarios</button>
+          <button id="pubTabEventos"  class="agenda-tab px-7 py-2.5 rounded-full text-sm font-medium transition-colors text-ink/70">🕯️ Eventos</button>
+        </div>
+      </div>
+
+      <!-- Panel HORARIOS -->
+      <div id="pubPanelHorarios" class="reveal">
+        <div id="pubHorarios" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <p class="text-ink/40 text-sm col-span-full text-center py-8">Cargando horarios…</p>
+        </div>
+      </div>
+
+      <!-- Panel EVENTOS -->
+      <div id="pubPanelEventos" class="reveal hidden">
+        <div id="pubEventos" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <p class="text-ink/40 text-sm col-span-full text-center py-8">Cargando eventos…</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 9 · CONTACTO Y UBICACIONES                                     -->
+  <!-- ============================================================= -->
+  <section id="contacto" class="py-24 md:py-32 bg-cream">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <p class="reveal text-sage-dk tracking-[0.3em] uppercase text-xs mb-4">Contacto y Ubicaciones</p>
+        <h2 class="reveal delay-1 font-serif text-4xl md:text-5xl text-ink leading-tight">Comencemos tu proceso</h2>
+        <p class="reveal delay-2 mt-8 text-ink/70 font-light">Escríbeme y conversemos. El primer paso hacia ti puede empezar hoy.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-12">
+        <!-- Información + ubicaciones -->
+        <div class="reveal space-y-8">
+          <!-- Datos de contacto -->
+          <div class="grid sm:grid-cols-2 gap-5">
+            <a href="https://wa.me/51947720840" target="_blank" rel="noopener" class="bg-beige/60 rounded-2xl p-6 card-hover block">
+              <div class="text-2xl mb-3">💬</div>
+              <span class="block text-xs tracking-widest uppercase text-ink/50 mb-1">WhatsApp / Teléfono</span>
+              <span class="block font-medium text-ink">+51 947 720 840</span>
+            </a>
+            <a href="mailto:contacto@helencarpio.com" class="bg-beige/60 rounded-2xl p-6 card-hover block">
+              <div class="text-2xl mb-3">✉️</div>
+              <span class="block text-xs tracking-widest uppercase text-ink/50 mb-1">Correo</span>
+              <span class="block font-medium text-ink break-all">contacto@helencarpio.com</span>
+            </a>
+          </div>
+
+          <!-- Horario -->
+          <div class="bg-sage/10 rounded-2xl p-6">
+            <div class="flex items-center gap-3 mb-3"><span class="text-2xl">🕊️</span><span class="font-serif text-xl text-ink">Horario de atención</span></div>
+            <p class="text-ink/70 text-sm">Lunes a Viernes · 9:00 – 20:00</p>
+            <p class="text-ink/70 text-sm">Sábados · 9:00 – 13:00</p>
+          </div>
+
+          <!-- Sedes -->
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div class="bg-cream border border-sand rounded-2xl p-6">
+              <span class="inline-block text-[11px] tracking-widest uppercase bg-sage text-cream px-3 py-1 rounded-full mb-3">Sede San Isidro</span>
+              <p class="text-ink font-medium">Calle Las Camelias 755</p>
+              <p class="text-ink/60 text-sm mt-1">A 2 cuadras del centro bancario.</p>
+            </div>
+            <div class="bg-cream border border-sand rounded-2xl p-6">
+              <span class="inline-block text-[11px] tracking-widest uppercase bg-terra text-cream px-3 py-1 rounded-full mb-3">Sede Ate</span>
+              <p class="text-ink font-medium">Florida II, Mz. B Lote 13 · Ate Vitarte</p>
+              <p class="text-ink/60 text-sm mt-1">A 2 cuadras del Real Plaza Puruchuco.</p>
+            </div>
+          </div>
+
+          <!-- Mapa placeholder -->
+          <div class="rounded-2xl overflow-hidden border border-sand h-56">
+            <iframe
+              title="Ubicación de las sedes en Lima"
+              src="https://www.google.com/maps?q=San%20Isidro%20Lima%20Peru&output=embed"
+              class="w-full h-full grayscale-[20%]" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="reveal delay-1">
+          <form class="bg-beige/50 rounded-3xl p-8 md:p-10 shadow-xl shadow-ink/5 space-y-5"
+                onsubmit="enviarWhatsApp(event)">
+            <h3 class="font-serif text-2xl text-ink mb-2">Cuéntame de ti</h3>
+            <p class="text-ink/60 text-sm mb-4">Completa el formulario y te responderé personalmente por WhatsApp.</p>
+
+            <div>
+              <label for="nombre" class="block text-xs tracking-widest uppercase text-ink/60 mb-2">Nombre</label>
+              <input id="nombre" type="text" required placeholder="Tu nombre"
+                     class="w-full bg-cream border border-sand rounded-xl px-4 py-3 text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition" />
+            </div>
+
+            <div>
+              <label id="servicioLabel" class="block text-xs tracking-widest uppercase text-ink/60 mb-2">¿En qué puedo acompañarte?</label>
+
+              <!-- Desplegable personalizado holístico (accesible) -->
+              <div id="servicioSelect" class="relative">
+                <!-- Valor oculto que usa el formulario -->
+                <input type="hidden" id="servicio" value="Terapia individual holística" />
+
+                <!-- Botón visible -->
+                <button type="button" id="servicioBtn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="servicioLabel"
+                        class="group w-full flex items-center justify-between gap-3 bg-cream border border-sand rounded-xl px-4 py-3.5 text-left text-ink transition
+                               hover:border-sage/60 focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage">
+                  <span class="flex items-center gap-3">
+                    <span id="servicioIcon" class="w-8 h-8 shrink-0 rounded-full bg-sage/15 flex items-center justify-center text-base">🌿</span>
+                    <span id="servicioText" class="font-medium">Terapia individual holística</span>
+                  </span>
+                  <svg id="servicioChevron" class="w-5 h-5 text-sage-dk/70 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+                  </svg>
+                </button>
+
+                <!-- Lista de opciones (visibilidad controlada por CSS propio) -->
+                <ul id="servicioList" role="listbox" tabindex="-1" aria-labelledby="servicioLabel"
+                    class="absolute z-30 left-0 right-0 mt-2 bg-cream border border-sand rounded-2xl shadow-2xl shadow-ink/20 p-2 max-h-72 overflow-auto">
+                  <!-- Las opciones se generan desde JS -->
+                </ul>
+              </div>
+            </div>
+
+            <div>
+              <label for="mensaje" class="block text-xs tracking-widest uppercase text-ink/60 mb-2">Mensaje</label>
+              <textarea id="mensaje" rows="4" placeholder="Cuéntame brevemente cómo te sientes o qué buscas..."
+                        class="w-full bg-cream border border-sand rounded-xl px-4 py-3 text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition resize-none"></textarea>
+            </div>
+
+            <button type="submit"
+                    class="w-full inline-flex items-center justify-center gap-2 bg-sage hover:bg-sage-dk text-cream tracking-wide px-6 py-4 rounded-full transition-colors shadow-lg shadow-sage/30">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24z"/></svg>
+              Enviar por WhatsApp
+            </button>
+            <p class="text-center text-ink/40 text-xs">Tus datos son tratados con total confidencialidad.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 10 · FOOTER                                                    -->
+  <!-- ============================================================= -->
+  <footer class="bg-ink text-cream/80 pt-20 pb-10">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <!-- Mensaje inspirador -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-4xl text-gold floaty inline-block mb-6">❀</span>
+        <p class="font-serif text-3xl md:text-4xl italic leading-relaxed text-cream">
+          "Volver a ti no es un destino,<br class="hidden sm:block" /> es el camino más valiente que puedes recorrer."
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-10 border-t border-cream/10 pt-12">
+        <!-- Marca -->
+        <div class="md:col-span-2">
+          <h3 class="font-serif text-2xl text-cream mb-2">Psi. Helen Carpio</h3>
+          <p class="text-[11px] tracking-[0.3em] uppercase text-sage-lt mb-4">Psicología Holística</p>
+          <p class="text-cream/60 text-sm max-w-sm leading-relaxed">Acompañamiento integral del ser. Un espacio sagrado para reconectar cuerpo, mente, emoción y espíritu.</p>
+        </div>
+        <!-- Enlaces -->
+        <div>
+          <h4 class="text-cream font-medium mb-4 text-sm tracking-widest uppercase">Explora</h4>
+          <ul class="space-y-2 text-sm text-cream/60">
+            <li><a href="#quien-soy" class="hover:text-gold transition-colors">Quién Soy</a></li>
+            <li><a href="#servicios" class="hover:text-gold transition-colors">Servicios</a></li>
+            <li><a href="#talleres" class="hover:text-gold transition-colors">Talleres</a></li>
+            <li><a href="#nutricion" class="hover:text-gold transition-colors">Nutrición</a></li>
+            <li><a href="#casa-retiro" class="hover:text-gold transition-colors">Casa Retiro</a></li>
+            <li><a href="#eventos" class="hover:text-gold transition-colors">Horarios</a></li>
+            <li><a href="#contacto" class="hover:text-gold transition-colors">Contacto</a></li>
+          </ul>
+        </div>
+        <!-- Contacto -->
+        <div>
+          <h4 class="text-cream font-medium mb-4 text-sm tracking-widest uppercase">Contáctame</h4>
+          <ul class="space-y-2 text-sm text-cream/60">
+            <li><a href="https://wa.me/51947720840" target="_blank" rel="noopener" class="hover:text-gold transition-colors">+51 947 720 840</a></li>
+            <li><a href="mailto:contacto@helencarpio.com" class="hover:text-gold transition-colors">contacto@helencarpio.com</a></li>
+            <li class="pt-2">San Isidro · Las Camelias 755</li>
+            <li>Ate · Florida II, Mz. B Lote 13 · Ate Vitarte</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-cream/10 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-cream/40">
+        <p>© <span id="year"></span> Psi. Helen Carpio Andia · Todos los derechos reservados.</p>
+        <p>Hecho con calidez para acompañar tu sanación.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================= -->
+  <!-- BOTÓN FLOTANTE WHATSAPP                                        -->
+  <!-- ============================================================= -->
+  <a href="https://wa.me/51947720840?text=Hola%20Helen,%20quisiera%20agendar%20una%20sesi%C3%B3n"
+     target="_blank" rel="noopener" aria-label="Escríbeme por WhatsApp"
+     class="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#1ebe57] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl shadow-black/30 hover:scale-110 transition-transform">
+    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zM6.597 20.13c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.82 9.82 0 001.51 5.26l-.999 3.648 3.477-.707zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+  </a>
+
+  <!-- ============================================================= -->
+  <!-- SCRIPTS                                                        -->
+  <!-- ============================================================= -->
+  <script>
+    // Año dinámico en el footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ---- Navbar: fondo al hacer scroll ----
+    const navbar = document.getElementById('navbar');
+    const onScroll = () => {
+      if (window.scrollY > 40) {
+        navbar.classList.add('bg-cream/95', 'backdrop-blur', 'shadow-md', 'shadow-ink/5');
+      } else {
+        navbar.classList.remove('bg-cream/95', 'backdrop-blur', 'shadow-md', 'shadow-ink/5');
+      }
+    };
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+
+    // ---- Menú móvil ----
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    document.querySelectorAll('.mobile-link').forEach(link =>
+      link.addEventListener('click', () => mobileMenu.classList.add('hidden'))
+    );
+
+    // ---- Animaciones reveal al hacer scroll (IntersectionObserver) ----
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ---- Desplegable personalizado de servicios ----
+    (function customSelect() {
+      const opciones = [
+        { icon: '🌿', label: 'Terapia individual holística' },
+        { icon: '🧸', label: 'Terapia infantil' },
+        { icon: '🌻', label: 'Terapia adolescente' },
+        { icon: '💞', label: 'Terapia de pareja' },
+        { icon: '🏡', label: 'Terapia familiar' },
+        { icon: '🤝', label: 'Apoyo en coparentalidad' },
+        { icon: '📋', label: 'Evaluaciones psicológicas' },
+        { icon: '🕯️', label: 'Taller "Volver a Mí"' },
+        { icon: '🌸', label: 'Terapias complementarias' },
+      ];
+
+      const wrap     = document.getElementById('servicioSelect');
+      const btn      = document.getElementById('servicioBtn');
+      const list     = document.getElementById('servicioList');
+      const hidden   = document.getElementById('servicio');
+      const textEl   = document.getElementById('servicioText');
+      const iconEl   = document.getElementById('servicioIcon');
+      let activeIndex = 0;
+
+      // Construir las opciones
+      opciones.forEach((op, i) => {
+        const li = document.createElement('li');
+        li.setAttribute('role', 'option');
+        li.dataset.index = i;
+        li.className = 'svc-option flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-ink/90';
+        li.innerHTML = `
+          <span class="w-8 h-8 shrink-0 rounded-full bg-sage/15 flex items-center justify-center text-base">${op.icon}</span>
+          <span class="flex-1">${op.label}</span>
+          <svg class="check w-4 h-4 text-sage" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>`;
+        li.addEventListener('click', () => seleccionar(i));
+        list.appendChild(li);
+      });
+      const items = [...list.children];
+
+      function abrir() {
+        wrap.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+        marcarActivo(activeIndex);
+        list.focus();
+      }
+      function cerrar() {
+        wrap.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+      const estaAbierto = () => wrap.classList.contains('open');
+
+      function seleccionar(i) {
+        activeIndex = i;
+        const op = opciones[i];
+        hidden.value = op.label;
+        textEl.textContent = op.label;
+        iconEl.textContent = op.icon;
+        items.forEach((el, idx) => el.setAttribute('aria-selected', idx === i));
+        cerrar();
+        btn.focus();
+      }
+      function marcarActivo(i) {
+        items.forEach((el, idx) => el.classList.toggle('active', idx === i));
+        items[i]?.scrollIntoView({ block: 'nearest' });
+      }
+
+      // Eventos
+      btn.addEventListener('click', () => estaAbierto() ? cerrar() : abrir());
+      document.addEventListener('click', (e) => { if (!wrap.contains(e.target)) cerrar(); });
+
+      // Teclado (accesibilidad)
+      btn.addEventListener('keydown', (e) => {
+        if (['ArrowDown', 'Enter', ' '].includes(e.key)) { e.preventDefault(); abrir(); }
+      });
+      list.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { cerrar(); btn.focus(); }
+        else if (e.key === 'ArrowDown') { e.preventDefault(); activeIndex = (activeIndex + 1) % opciones.length; marcarActivo(activeIndex); }
+        else if (e.key === 'ArrowUp')   { e.preventDefault(); activeIndex = (activeIndex - 1 + opciones.length) % opciones.length; marcarActivo(activeIndex); }
+        else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); seleccionar(activeIndex); }
+      });
+
+      // Estado inicial
+      seleccionar(0);
+    })();
+
+    // ---- Formulario → WhatsApp ----
+    function enviarWhatsApp(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value.trim();
+      const servicio = document.getElementById('servicio').value;
+      const mensaje = document.getElementById('mensaje').value.trim();
+      const texto =
+        `Hola Helen, soy ${nombre}. ` +
+        `Me interesa: ${servicio}. ` +
+        (mensaje ? `\n\n${mensaje}` : '');
+      window.open(`https://wa.me/51947720840?text=${encodeURIComponent(texto)}`, '_blank');
+    }
+  </script>
+
+  <!-- ============================================================= -->
+  <!-- AGENDA DINÁMICA (Supabase) · Horarios y Eventos públicos      -->
+  <!-- ============================================================= -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script>
+    (function agendaPublica(){
+      // Si por alguna razón no carga Supabase, no rompemos la página.
+      if(typeof sb === 'undefined' || typeof WHATSAPP === 'undefined'){ return; }
+
+      const fmtFecha = (f)=> new Date(f+'T00:00:00').toLocaleDateString('es-PE',{weekday:'long',day:'numeric',month:'long'});
+      const fmtHora  = (h)=> h ? h.slice(0,5) : '';
+      const wa = (txt)=> `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(txt)}`;
+
+      // ----- Pestañas -----
+      const tH=document.getElementById('pubTabHorarios'), tE=document.getElementById('pubTabEventos');
+      const pH=document.getElementById('pubPanelHorarios'), pE=document.getElementById('pubPanelEventos');
+      function activar(tab){
+        const horarios = tab==='horarios';
+        pH.classList.toggle('hidden', !horarios);
+        pE.classList.toggle('hidden', horarios);
+        tH.classList.toggle('bg-sage', horarios); tH.classList.toggle('text-cream', horarios); tH.classList.toggle('text-ink/70', !horarios);
+        tE.classList.toggle('bg-sage', !horarios); tE.classList.toggle('text-cream', !horarios); tE.classList.toggle('text-ink/70', horarios);
+      }
+      tH.addEventListener('click', ()=>activar('horarios'));
+      tE.addEventListener('click', ()=>activar('eventos'));
+
+      // ----- Cargar HORARIOS -----
+      async function cargarHorarios(){
+        const cont=document.getElementById('pubHorarios');
+        const { data, error } = await sb.from('horarios').select('*')
+          .gte('fecha', new Date().toISOString().slice(0,10))
+          .order('fecha').order('hora_inicio');
+        if(error){ cont.innerHTML=`<p class="text-ink/40 text-sm col-span-full text-center py-8">No se pudo cargar la agenda.</p>`; return; }
+        if(!data.length){ cont.innerHTML=`<p class="text-ink/40 text-sm col-span-full text-center py-8">Pronto publicaré nuevos horarios disponibles. ¡Escríbeme mientras tanto!</p>`; return; }
+        cont.innerHTML = data.map(h=>{
+          const libre = h.estado==='libre';
+          const fechaTxt = fmtFecha(h.fecha), horaTxt = fmtHora(h.hora_inicio)+(h.hora_fin?' – '+fmtHora(h.hora_fin):'');
+          if(libre){
+            const msg = `Hola Helen, quisiera reservar el turno del ${fechaTxt} a las ${fmtHora(h.hora_inicio)} (sede ${h.sede}). ¿Sigue disponible?`;
+            return `<a href="${wa(msg)}" target="_blank" rel="noopener"
+                      class="group bg-cream border border-sage/40 rounded-2xl p-5 hover:bg-sage hover:border-sage transition-colors block">
+                      <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] tracking-widest uppercase bg-sage/15 text-sage-dk group-hover:bg-cream/20 group-hover:text-cream px-2.5 py-1 rounded-full">Disponible</span>
+                        <span class="text-sage group-hover:text-cream">→</span>
+                      </div>
+                      <p class="font-medium text-ink group-hover:text-cream capitalize">${fechaTxt}</p>
+                      <p class="text-sm text-ink/60 group-hover:text-cream/80">${horaTxt} · ${h.sede}</p>
+                      <p class="text-xs text-sage-dk group-hover:text-cream/90 mt-3 font-medium">Reservar por WhatsApp</p>
+                    </a>`;
+          }
+          return `<div class="bg-beige/50 border border-sand rounded-2xl p-5 opacity-70">
+                    <div class="flex items-center justify-between mb-2">
+                      <span class="text-[10px] tracking-widest uppercase bg-ink/10 text-ink/50 px-2.5 py-1 rounded-full">Ocupado</span>
+                      <span class="text-ink/30">✕</span>
+                    </div>
+                    <p class="font-medium text-ink/60 capitalize line-through">${fechaTxt}</p>
+                    <p class="text-sm text-ink/40">${horaTxt} · ${h.sede}</p>
+                  </div>`;
+        }).join('');
+      }
+
+      // ----- Cargar EVENTOS -----
+      async function cargarEventos(){
+        const cont=document.getElementById('pubEventos');
+        const { data, error } = await sb.from('eventos').select('*')
+          .gte('fecha', new Date().toISOString().slice(0,10)).order('fecha');
+        if(error){ cont.innerHTML=`<p class="text-ink/40 text-sm col-span-full text-center py-8">No se pudieron cargar los eventos.</p>`; return; }
+        if(!data.length){ cont.innerHTML=`<p class="text-ink/40 text-sm col-span-full text-center py-8">Aún no hay eventos publicados. ¡Muy pronto novedades!</p>`; return; }
+        cont.innerHTML = data.map(ev=>{
+          const disp = Math.max(0, ev.plazas_totales - ev.plazas_ocupadas);
+          const agotado = ev.estado!=='disponible' || disp<=0;
+          const fechaTxt = fmtFecha(ev.fecha);
+          const msg = `Hola Helen, quiero reservar mi cupo para el evento "${ev.titulo}" del ${fechaTxt}${ev.hora?' a las '+fmtHora(ev.hora):''}. ¿Hay plazas disponibles?`;
+          return `<div class="bg-cream border border-sand rounded-2xl overflow-hidden flex flex-col shadow-sm">
+            ${ev.foto_url ? `<img src="${ev.foto_url}" alt="${ev.titulo}" class="h-44 w-full object-cover" loading="lazy">`
+                          : `<div class="h-44 w-full bg-gradient-to-br from-terra via-terra-lt to-sand flex items-center justify-center text-5xl text-cream">🕯️</div>`}
+            <div class="p-6 flex-1 flex flex-col">
+              <div class="flex items-start justify-between gap-2 mb-1">
+                <h3 class="font-serif text-2xl text-ink leading-tight">${ev.titulo}</h3>
+                ${ev.precio?`<span class="text-sm font-medium text-sage-dk shrink-0">${ev.precio}</span>`:''}
+              </div>
+              <p class="text-sm text-ink/60 capitalize">${fechaTxt}${ev.hora?' · '+fmtHora(ev.hora):''}</p>
+              ${ev.lugar?`<p class="text-xs text-ink/50 mt-1">📍 ${ev.lugar}</p>`:''}
+              ${ev.descripcion?`<p class="text-sm text-ink/65 mt-3 leading-relaxed flex-1">${ev.descripcion}</p>`:'<div class="flex-1"></div>'}
+              <div class="mt-4">
+                <div class="flex items-center justify-between text-xs text-ink/55 mb-1.5">
+                  <span>${agotado?'Sin cupos':disp+' plaza(s) disponible(s)'}</span>
+                  <span>${ev.plazas_ocupadas}/${ev.plazas_totales}</span>
+                </div>
+                <div class="h-2 bg-beige rounded-full overflow-hidden mb-4">
+                  <div class="h-full ${agotado?'bg-terra':'bg-sage'}" style="width:${ev.plazas_totales?(ev.plazas_ocupadas/ev.plazas_totales*100):0}%"></div>
+                </div>
+                ${agotado
+                  ? `<button disabled class="w-full bg-beige text-ink/40 px-5 py-3 rounded-full cursor-not-allowed text-sm font-medium">Cupos agotados</button>`
+                  : `<a href="${wa(msg)}" target="_blank" rel="noopener" class="block text-center w-full bg-terra hover:bg-terra/90 text-cream px-5 py-3 rounded-full transition-colors text-sm font-medium">Reservar mi cupo →</a>`}
+              </div>
+            </div>
+          </div>`;
+        }).join('');
+      }
+
+      cargarHorarios();
+      cargarEventos();
+    })();
+  </script>
+</body>
+</html>

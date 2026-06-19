@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Panel Administrativo · Psi. Helen Carpio</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="favicon.svg" />
+
+  <!-- Tailwind + tipografías + Supabase -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: {
+          sage:'#7C8463', 'sage-dk':'#5C6349', 'sage-lt':'#A8AE93',
+          cream:'#F7F2E9', beige:'#EBE2D3', sand:'#DCCDB6',
+          terra:'#B57256', gold:'#C0A062', ink:'#3A352E',
+        },
+        fontFamily:{ serif:['"Cormorant Garamond"','serif'], sans:['"Jost"','sans-serif'] }
+      }}
+    }
+  </script>
+  <style>
+    body{ background:#F7F2E9; color:#3A352E; }
+    .tab-active{ background:#7C8463; color:#F7F2E9; }
+
+    /* ===== Campos de formulario (base) ===== */
+    input, select, textarea{
+      outline:none;
+      transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+    }
+    input:hover, select:hover, textarea:hover{ border-color:#A8AE93; }
+    input:focus, select:focus, textarea:focus{
+      border-color:#7C8463;
+      box-shadow:0 0 0 3px rgba(124,132,99,.22);
+      background:#fff;
+    }
+    ::placeholder{ color:#A89E8C; }
+
+    /* ===== Selects con flecha personalizada (salvia) ===== */
+    select{
+      -webkit-appearance:none; -moz-appearance:none; appearance:none;
+      cursor:pointer;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%237C8463' stroke-width='2.2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;
+      background-position:right .85rem center;
+      background-size:1.05rem;
+      padding-right:2.6rem !important;
+    }
+    select::-ms-expand{ display:none; }
+
+    /* ===== Fecha y hora ===== */
+    input[type="date"], input[type="time"]{ cursor:pointer; }
+    /* Reemplaza el ícono nativo por uno propio en color salvia */
+    input[type="date"]::-webkit-calendar-picker-indicator{
+      cursor:pointer; opacity:1; width:1.15rem; height:1.15rem;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%237C8463' stroke-width='1.7'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5A2.25 2.25 0 015.25 5.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0V11.25A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5'/%3E%3C/svg%3E");
+      background-repeat:no-repeat; background-position:center; background-size:contain;
+    }
+    input[type="time"]::-webkit-calendar-picker-indicator{
+      cursor:pointer; opacity:1; width:1.15rem; height:1.15rem;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%237C8463' stroke-width='1.7'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M12 6v6h4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z'/%3E%3C/svg%3E");
+      background-repeat:no-repeat; background-position:center; background-size:contain;
+    }
+    input[type="date"]::-webkit-calendar-picker-indicator:hover,
+    input[type="time"]::-webkit-calendar-picker-indicator:hover{ opacity:.7; }
+
+    /* ===== Desplegable personalizado (reemplaza al <select> nativo) ===== */
+    .csel{ position:relative; }
+    .csel-native{ position:absolute; opacity:0; width:0; height:0; pointer-events:none; } /* select real oculto, conserva el valor para el formulario */
+    .csel-btn{
+      width:100%; display:flex; align-items:center; justify-content:space-between; gap:.5rem;
+      background:#F7F2E9; border:1px solid #DCCDB6; border-radius:.75rem;
+      padding:.65rem .9rem; text-align:left; color:#3A352E; cursor:pointer;
+      transition:border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+    }
+    .csel-btn:hover{ border-color:#A8AE93; }
+    .csel.open .csel-btn{ border-color:#7C8463; box-shadow:0 0 0 3px rgba(124,132,99,.2); background:#fff; }
+    .csel-btn .lbl{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .csel-btn .lbl.ph{ color:#A89E8C; }                /* placeholder cuando no hay valor */
+    .csel-chev{ flex:none; color:#5C6349; transition:transform .25s ease; }
+    .csel.open .csel-chev{ transform:rotate(180deg); }
+
+    .csel-panel{
+      position:absolute; z-index:50; left:0; right:0; top:calc(100% + .4rem);
+      background:#fff; border:1px solid #DCCDB6; border-radius:1rem;
+      box-shadow:0 20px 45px -12px rgba(58,53,46,.3);
+      padding:.4rem; max-height:15rem; overflow:auto;
+      opacity:0; transform:translateY(-6px) scale(.98); transform-origin:top center; pointer-events:none;
+      transition:opacity .18s ease, transform .18s ease;
+    }
+    .csel.open .csel-panel{ opacity:1; transform:none; pointer-events:auto; }
+    .csel-opt{
+      display:flex; align-items:center; justify-content:space-between; gap:.5rem;
+      padding:.55rem .7rem; border-radius:.6rem; cursor:pointer; color:#3A352E; font-size:.95rem;
+      transition:background-color .15s ease;
+    }
+    .csel-opt:hover, .csel-opt.hl{ background:rgba(124,132,99,.12); }
+    .csel-opt[aria-selected="true"]{ background:rgba(124,132,99,.08); font-weight:500; }
+    .csel-opt .ck{ flex:none; color:#7C8463; opacity:0; transition:opacity .15s ease; }
+    .csel-opt[aria-selected="true"] .ck{ opacity:1; }
+    /* barra de scroll fina dentro del panel */
+    .csel-panel::-webkit-scrollbar{ width:8px; }
+    .csel-panel::-webkit-scrollbar-thumb{ background:#DCCDB6; border-radius:8px; }
+
+    /* ===== Calendario personalizado (reemplaza al date nativo) ===== */
+    .cal-panel{
+      position:absolute; z-index:50; left:0; top:calc(100% + .4rem);
+      width:17.5rem; max-width:90vw;
+      background:#fff; border:1px solid #DCCDB6; border-radius:1rem;
+      box-shadow:0 20px 45px -12px rgba(58,53,46,.3); padding:.9rem 1rem 1rem;
+      opacity:0; transform:translateY(-6px) scale(.98); transform-origin:top center; pointer-events:none;
+      transition:opacity .18s ease, transform .18s ease;
+    }
+    .csel.open .cal-panel{ opacity:1; transform:none; pointer-events:auto; }
+    .cal-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:.6rem; }
+    .cal-title{ font-family:"Cormorant Garamond",serif; font-size:1.25rem; color:#3A352E; text-transform:capitalize; font-weight:600; }
+    .cal-nav{ width:2rem; height:2rem; display:flex; align-items:center; justify-content:center; border-radius:.6rem; color:#5C6349; cursor:pointer; transition:background-color .15s ease; }
+    .cal-nav:hover{ background:rgba(124,132,99,.14); }
+    .cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
+    .cal-dow{ text-align:center; font-size:.66rem; text-transform:uppercase; letter-spacing:.04em; color:#A89E8C; padding:.35rem 0 .2rem; }
+    .cal-day{ height:2rem; display:flex; align-items:center; justify-content:center; font-size:.85rem; border-radius:.55rem; cursor:pointer; color:#3A352E; transition:background-color .12s ease; }
+    .cal-day:hover{ background:rgba(124,132,99,.14); }
+    .cal-day.muted{ color:#CBBFA9; }
+    .cal-day.today{ box-shadow:inset 0 0 0 1.5px #C0A062; }
+    .cal-day.sel{ background:#7C8463; color:#F7F2E9; font-weight:600; }
+    .cal-day.sel:hover{ background:#5C6349; }
+    .cal-foot{ display:flex; justify-content:space-between; align-items:center; margin-top:.7rem; padding-top:.6rem; border-top:1px solid #EBE2D3; }
+    .cal-foot button{ font-size:.8rem; color:#5C6349; padding:.25rem .5rem; border-radius:.4rem; cursor:pointer; transition:background-color .15s ease; }
+    .cal-foot button:hover{ background:rgba(124,132,99,.12); }
+
+    /* spinner */
+    .spin{ animation:sp 1s linear infinite; } @keyframes sp{to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body class="font-sans min-h-screen">
+
+  <!-- ============================== LOGIN ============================== -->
+  <section id="loginView" class="min-h-screen flex items-center justify-center px-5">
+    <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl shadow-ink/10 p-8 md:p-10 border border-sand">
+      <div class="text-center mb-8">
+        <span class="text-4xl text-gold">❀</span>
+        <h1 class="font-serif text-3xl text-ink mt-2">Panel de Helen</h1>
+        <p class="text-ink/60 text-sm">Acceso exclusivo de la administradora</p>
+      </div>
+
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="block text-xs tracking-widest uppercase text-ink/60 mb-1.5">DNI</label>
+          <input id="dni" type="text" inputmode="numeric" autocomplete="username" required placeholder="Tu número de DNI"
+                 class="w-full bg-cream border border-sand rounded-xl px-4 py-3 transition" />
+        </div>
+        <div>
+          <label class="block text-xs tracking-widest uppercase text-ink/60 mb-1.5">Contraseña</label>
+          <input id="password" type="password" autocomplete="current-password" required placeholder="••••••••"
+                 class="w-full bg-cream border border-sand rounded-xl px-4 py-3 transition" />
+        </div>
+        <button type="submit" id="loginBtn"
+                class="w-full bg-sage hover:bg-sage-dk text-cream tracking-wide px-6 py-3.5 rounded-full transition-colors font-medium">
+          Iniciar sesión
+        </button>
+        <p id="loginMsg" class="text-center text-sm text-terra hidden"></p>
+      </form>
+
+      <p class="text-center text-ink/40 text-xs mt-6">
+        Acceso exclusivo. Ingresa con tu DNI y contraseña.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================== APP ============================== -->
+  <section id="appView" class="hidden">
+    <!-- Barra superior -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-sand">
+      <div class="max-w-6xl mx-auto px-5 lg:px-8 py-3.5 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl text-gold">❀</span>
+          <div class="leading-tight">
+            <span class="block font-serif text-xl text-ink">Panel de Helen</span>
+            <span id="userEmail" class="block text-[11px] text-ink/50"></span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="index.html#eventos" target="_blank" class="text-sm text-ink/60 hover:text-sage hidden sm:inline">Ver web ↗</a>
+          <button id="logoutBtn" class="text-sm bg-beige hover:bg-sand text-ink px-4 py-2 rounded-full transition-colors">Salir</button>
+        </div>
+      </div>
+
+      <!-- Pestañas -->
+      <div class="max-w-6xl mx-auto px-5 lg:px-8">
+        <div class="flex gap-2 -mb-px">
+          <button data-tab="horarios" class="tab-btn tab-active px-6 py-3 rounded-t-xl text-sm font-medium transition-colors">🗓️ Horarios</button>
+          <button data-tab="eventos"  class="tab-btn text-ink/70 hover:text-ink px-6 py-3 rounded-t-xl text-sm font-medium transition-colors">🕯️ Eventos</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-5 lg:px-8 py-8">
+
+      <!-- ===================== TAB HORARIOS ===================== -->
+      <div id="tab-horarios" class="tab-panel">
+        <div class="grid lg:grid-cols-3 gap-8">
+          <!-- Formulario nuevo horario -->
+          <div class="lg:col-span-1">
+            <div class="bg-white rounded-2xl border border-sand p-6 sticky top-32">
+              <h2 class="font-serif text-2xl text-ink mb-1">Nuevo horario</h2>
+              <p class="text-ink/55 text-sm mb-5">Agrega un turno disponible para tus clientes.</p>
+              <form id="formHorario" class="space-y-4">
+                <div>
+                  <label class="block text-xs tracking-widest uppercase text-ink/60 mb-1.5">Fecha</label>
+                  <input name="fecha" type="date" required class="w-full bg-cream border border-sand rounded-xl px-3 py-2.5" />
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-xs tracking-widest uppercase text-ink/60 mb-1.5">Inicio</label>
+                    <select name="hora_inicio" required class="js-time w-full bg-cream border border-sand rounded-xl px-3 py-2.5"></select>
+                  </div>
+                  <div>
+                    <label class="block text-xs tracking-widest uppercase text-ink/60 mb-1.5">Fin</label>
+                    <select name="hora_fin" class="js-time js-optional w-full bg-cream border border-sand rounded-xl px-3 py-2.5"></select>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-xs tracking-widest uppercase text-ink/60 mb-1.5">Sede</label>
+                  <select name="sede" class="w-full bg-cream border border-sand rounded-xl px-3 py-2.5">
+                    <option>San Isidro</option>
+                    <option>Ate Vitarte</option>
+                    <option>Online</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs tracking-widest uppercase text-ink/60 mb-1.5">Estado</label>
+                  <select name="estado" class="w-full bg-cream border border-sand rounded-xl px-3 py-2.5">
+                    <option value="libre">Libre</option>
+                    <option value="ocupado">Ocupado</option>
+                  </select>
+                </div>
+                <button class="w-full bg-sage hover:bg-sage-dk text-cream px-5 py-3 rounded-full transition-colors font-medium">+ Agregar horario</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Lista de horarios -->
+          <div class="lg:col-span-2">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="font-serif text-2xl text-ink">Tus horarios</h2>
+              <span id="countHorarios" class="text-sm text-ink/50"></span>
+            </div>
+            <div id="listaHorarios" class="space-y-3">
+              <p class="text-ink/40 text-sm">Cargando…</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== TAB EVENTOS ===================== -->
+      <div id="tab-eventos" class="tab-panel hidden">
+        <div class="grid lg:grid-cols-3 gap-8">
+          <!-- Formulario nuevo evento -->
+          <div class="lg:col-span-1">
+            <div class="bg-white rounded-2xl border border-sand p-6 sticky top-32">
+              <h2 class="font-serif text-2xl text-ink mb-1">Nuevo evento</h2>
+              <p class="text-ink/55 text-sm mb-5">Talleres y encuentros con cupos.</p>
+              <form id="formEvento" class="space-y-4">
+                <div>
+                  <label class="block text-xs tracking-widest uppercase text-ink/60 mb-1.5">Título</label>
+                  <input name="titulo" required placeholder="Volver a Mí" class="w-full bg-cream border border-sand rounded-xl px-3 py-2.5" />
+                </div>
+                <div>
+                  <label class="block text-xs tracking-widest uppercase text-ink/60 mb-1.5">Descripción</label>
+                  <textarea name="descripcion" rows="3" placeholder="Breve descripción…" class="w-full bg-cream border border-sand rounded-xl px-3 py-2.5 resize-none"></textarea>
+                </div>
+                <div>
+                  <label class="block text-xs tracking-widest uppercase text-ink/60 mb-1.5">Foto</label>
+                  <input name="foto" type="file" accept="image/*" class="w-full text-sm text-ink/70 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-sage file:text-cream file:cursor-pointer" />
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-xs tracking-widest uppercase text-ink/60 mb-1.5">Fecha</label>
+                    <input name="fecha" type="date" required class="w-full bg-cream border border-sand rounded-xl px-3 py-2.5" />
+                  </div>
+                  <div>
+                    <label class="block text-xs tracking-widest uppercase text-ink/60 mb-1.5">Hora</label>
+                    <select name="hora" class="js-time js-optional w-full bg-cream border border-sand rounded-xl px-3 py-2.5"></select>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-xs tracking-widest uppercase text-ink/60 mb-1.5">Lugar</label>
+                  <input name="lugar" placeholder="Dirección del evento" class="w-full bg-cream border border-sand rounded-xl px-3 py-2.5" />
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-xs tracking-widest uppercase text-ink/60 mb-1.5">Plazas</label>
+                    <input name="plazas_totales" type="number" min="1" value="10" class="w-full bg-cream border border-sand rounded-xl px-3 py-2.5" />
+                  </div>
+                  <div>
+                    <label class="block text-xs tracking-widest uppercase text-ink/60 mb-1.5">Precio</label>
+                    <input name="precio" placeholder="S/ 0 o vacío" class="w-full bg-cream border border-sand rounded-xl px-3 py-2.5" />
+                  </div>
+                </div>
+                <button class="w-full bg-terra hover:bg-terra/90 text-cream px-5 py-3 rounded-full transition-colors font-medium flex items-center justify-center gap-2">
+                  <span id="evtBtnText">+ Crear evento</span>
+                  <svg id="evtSpinner" class="w-4 h-4 spin hidden" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity=".3"/><path d="M22 12a10 10 0 0 0-10-10" stroke="currentColor" stroke-width="3"/></svg>
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Lista de eventos -->
+          <div class="lg:col-span-2">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="font-serif text-2xl text-ink">Tus eventos</h2>
+              <span id="countEventos" class="text-sm text-ink/50"></span>
+            </div>
+            <div id="listaEventos" class="grid sm:grid-cols-2 gap-4">
+              <p class="text-ink/40 text-sm">Cargando…</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </section>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-ink text-cream px-6 py-3 rounded-full shadow-2xl text-sm opacity-0 pointer-events-none transition-opacity z-50"></div>
+
+  <!-- ============================== LÓGICA ============================== -->
+  <script src="supabase-config.js"></script>
+  <script>
+    // ---------- Utilidades ----------
+    const $ = (s,el=document)=>el.querySelector(s);
+    const $$ = (s,el=document)=>[...el.querySelectorAll(s)];
+    const toast = (msg, ok=true) => {
+      const t=$('#toast'); t.textContent=msg;
+      t.style.background = ok ? '#5C6349' : '#B57256';
+      t.style.opacity='1';
+      setTimeout(()=>t.style.opacity='0', 2600);
+    };
+    const fmtFecha = (f) => {
+      if(!f) return '';
+      const d = new Date(f+'T00:00:00');
+      return d.toLocaleDateString('es-PE',{weekday:'long', day:'numeric', month:'long', year:'numeric'});
+    };
+    const fmtHora = (h) => h ? h.slice(0,5) : '';
+
+    // ======================================================
+    //  DESPLEGABLES PERSONALIZADOS + HORAS DE 30 EN 30 MIN
+    // ======================================================
+    const CHEVRON = `<svg class="csel-chev" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>`;
+    const CHECK   = `<svg class="ck" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>`;
+
+    // Genera las opciones de hora cada 30 minutos (06:00 → 22:00)
+    function opcionesHora(optional){
+      let html = optional ? `<option value="">— Sin definir —</option>` : '';
+      for(let h=6; h<=22; h++){
+        for(const m of ['00','30']){
+          const hh = String(h).padStart(2,'0');
+          html += `<option value="${hh}:${m}">${hh}:${m}</option>`;
+        }
+      }
+      return html;
+    }
+    function llenarHoras(){
+      $$('.js-time').forEach(sel=>{
+        if(sel.dataset.filled) return;
+        sel.innerHTML = opcionesHora(sel.classList.contains('js-optional'));
+        sel.dataset.filled = '1';
+      });
+    }
+
+    // Convierte un <select> nativo en un desplegable bonito (manteniendo el value para el form)
+    function enhanceSelect(sel){
+      if(sel.dataset.enhanced) return; sel.dataset.enhanced = '1';
+
+      const wrap = document.createElement('div');
+      // conserva las clases de tamaño/posición del select original
+      const sizing = ['w-full','flex-1'].filter(c=> sel.classList.contains(c)).join(' ');
+      wrap.className = ('csel ' + sizing).trim();
+      sel.parentNode.insertBefore(wrap, sel);
+      wrap.appendChild(sel);
+      sel.classList.add('csel-native');
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'csel-btn';
+      btn.innerHTML = `<span class="lbl"></span>${CHEVRON}`;
+      const lbl = btn.querySelector('.lbl');
+
+      const panel = document.createElement('ul');
+      panel.className = 'csel-panel';
+
+      const construir = ()=>{
+        panel.innerHTML = '';
+        [...sel.options].forEach((op, i)=>{
+          const li = document.createElement('li');
+          li.className = 'csel-opt';
+          li.setAttribute('role','option');
+          li.innerHTML = `<span>${op.textContent}</span>${CHECK}`;
+          li.addEventListener('click', ()=>{
+            sel.selectedIndex = i;
+            sel.dispatchEvent(new Event('change',{bubbles:true}));
+            sync(); cerrar();
+          });
+          panel.appendChild(li);
+        });
+      };
+      const sync = ()=>{
+        const op = sel.options[sel.selectedIndex];
+        const vacio = !op || op.value==='';
+        lbl.textContent = op ? op.textContent : '';
+        lbl.classList.toggle('ph', vacio);
+        [...panel.children].forEach((li,i)=> li.setAttribute('aria-selected', i===sel.selectedIndex));
+      };
+      const abrir = ()=>{ wrap.classList.add('open'); };
+      const cerrar = ()=>{ wrap.classList.remove('open'); };
+
+      btn.addEventListener('click', ()=> wrap.classList.toggle('open'));
+      document.addEventListener('click', (e)=>{ if(!wrap.contains(e.target)) cerrar(); });
+      sel.addEventListener('change', sync);
+
+      wrap.append(btn, panel);
+      construir(); sync();
+
+      // si el form se resetea, re-sincronizar
+      sel.form && sel.form.addEventListener('reset', ()=> setTimeout(sync,0));
+    }
+
+    function mejorarSelects(scope=document){
+      $$('select:not(.csel-native)', scope).forEach(enhanceSelect);
+    }
+
+    // ---------- Calendario personalizado ----------
+    const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    const DOW = ['DO','LU','MA','MI','JU','VI','SA'];
+    const CAL_ICON = `<svg class="csel-chev" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#7C8463" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5A2.25 2.25 0 015.25 5.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0V11.25A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>`;
+    const pad2 = n => String(n).padStart(2,'0');
+    const toYMD = d => `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+    const sameDay = (a,b)=> a&&b && a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
+
+    function enhanceDate(input){
+      if(input.dataset.enhanced) return; input.dataset.enhanced = '1';
+
+      const wrap = document.createElement('div');
+      const sizing = ['w-full','flex-1'].filter(c=> input.classList.contains(c)).join(' ');
+      wrap.className = ('csel ' + sizing).trim();
+      input.parentNode.insertBefore(wrap, input);
+      wrap.appendChild(input); input.classList.add('csel-native');
+
+      const btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'csel-btn';
+      btn.innerHTML = `<span class="lbl ph"></span>${CAL_ICON}`;
+      const lbl = btn.querySelector('.lbl');
+
+      const panel = document.createElement('div');
+      panel.className = 'cal-panel';
+      wrap.append(btn, panel);
+
+      let selected = input.value ? new Date(input.value + 'T00:00:00') : null;
+      let view = new Date(selected || new Date()); view.setDate(1);
+
+      const syncLabel = ()=>{
+        if(selected){ lbl.textContent = `${pad2(selected.getDate())} / ${pad2(selected.getMonth()+1)} / ${selected.getFullYear()}`; lbl.classList.remove('ph'); }
+        else { lbl.textContent = 'dd / mm / aaaa'; lbl.classList.add('ph'); }
+      };
+
+      const render = ()=>{
+        const y = view.getFullYear(), m = view.getMonth();
+        const startDow = new Date(y, m, 1).getDay();
+        const today = new Date(); today.setHours(0,0,0,0);
+        let cells = '';
+        for(let i=0; i<42; i++){
+          const d = new Date(y, m, 1 - startDow + i);
+          const cls = ['cal-day'];
+          if(d.getMonth() !== m) cls.push('muted');
+          if(sameDay(d, today)) cls.push('today');
+          if(sameDay(d, selected)) cls.push('sel');
+          cells += `<div class="${cls.join(' ')}" data-ymd="${toYMD(d)}">${d.getDate()}</div>`;
+        }
+        panel.innerHTML = `
+          <div class="cal-head">
+            <span class="cal-title">${MESES[m]} de ${y}</span>
+            <div style="display:flex; gap:.2rem">
+              <span class="cal-nav" data-nav="-1" aria-label="Mes anterior">‹</span>
+              <span class="cal-nav" data-nav="1" aria-label="Mes siguiente">›</span>
+            </div>
+          </div>
+          <div class="cal-grid">${DOW.map(d=>`<div class="cal-dow">${d}</div>`).join('')}${cells}</div>
+          <div class="cal-foot">
+            <button type="button" data-act="clear">Borrar</button>
+            <button type="button" data-act="today">Hoy</button>
+          </div>`;
+      };
+
+      const abrir = ()=>{ render(); wrap.classList.add('open'); };
+      const cerrar = ()=> wrap.classList.remove('open');
+
+      btn.addEventListener('click', ()=> wrap.classList.contains('open') ? cerrar() : abrir());
+      document.addEventListener('click', (e)=>{ if(!wrap.contains(e.target)) cerrar(); });
+
+      panel.addEventListener('click', (e)=>{
+        const nav = e.target.closest('[data-nav]');
+        if(nav){ view.setMonth(view.getMonth() + parseInt(nav.dataset.nav)); render(); return; }
+        const act = e.target.closest('[data-act]');
+        if(act){
+          if(act.dataset.act === 'clear'){ selected=null; input.value=''; }
+          else { selected=new Date(); selected.setHours(0,0,0,0); input.value=toYMD(selected); view=new Date(selected); view.setDate(1); }
+          input.dispatchEvent(new Event('change',{bubbles:true})); syncLabel(); cerrar(); return;
+        }
+        const day = e.target.closest('.cal-day');
+        if(day){
+          selected = new Date(day.dataset.ymd + 'T00:00:00');
+          input.value = day.dataset.ymd;
+          input.dispatchEvent(new Event('change',{bubbles:true}));
+          syncLabel(); cerrar();
+        }
+      });
+
+      // re-sincronizar al resetear el formulario
+      input.form && input.form.addEventListener('reset', ()=> setTimeout(()=>{ selected = input.value ? new Date(input.value+'T00:00:00') : null; syncLabel(); }, 0));
+
+      syncLabel();
+    }
+
+    function mejorarFechas(scope=document){
+      $$('input[type="date"]:not(.csel-native)', scope).forEach(enhanceDate);
+    }
+
+    // ---------- AUTENTICACIÓN ----------
+    const loginView = $('#loginView'), appView = $('#appView');
+
+    async function checkSession(){
+      const { data:{ session } } = await sb.auth.getSession();
+      if(session){ entrar(session); } else { loginView.classList.remove('hidden'); appView.classList.add('hidden'); }
+    }
+    function entrar(session){
+      loginView.classList.add('hidden');
+      appView.classList.remove('hidden');
+      $('#userEmail').textContent = 'DNI: ' + (session.user.email || '').split('@')[0];
+      llenarHoras();        // genera las horas de 30 en 30 min
+      mejorarSelects();     // convierte los selects de los formularios en desplegables bonitos
+      mejorarFechas();      // convierte los campos de fecha en un calendario personalizado
+      cargarHorarios();
+      cargarEventos();
+    }
+
+    // Credenciales de administradora (acceso con DNI + contraseña).
+    // Por debajo se traduce a una cuenta real de Supabase para mantener
+    // la seguridad de la base de datos (RLS).
+    const ADMIN_DNI  = '45234623';
+    const ADMIN_PASS = '022010';
+    const dniToEmail = (dni)=> `${dni}@helen.app`; // correo interno derivado del DNI
+
+    $('#loginForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const btn=$('#loginBtn'); const msg=$('#loginMsg');
+      const dni = $('#dni').value.trim();
+      const pass = $('#password').value;
+      msg.classList.add('hidden');
+
+      // Validación local de la puerta de entrada
+      if(dni !== ADMIN_DNI || pass !== ADMIN_PASS){
+        msg.textContent='DNI o contraseña incorrectos.'; msg.classList.remove('hidden'); return;
+      }
+
+      btn.disabled=true; btn.textContent='Ingresando…';
+      const email = dniToEmail(dni);
+
+      // 1) Intentar iniciar sesión
+      let { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+
+      // 2) Si la cuenta interna aún no existe, la creamos automáticamente y reintentamos
+      if(error){
+        const signup = await sb.auth.signUp({ email, password: pass });
+        if(!signup.error){
+          const retry = await sb.auth.signInWithPassword({ email, password: pass });
+          data = retry.data; error = retry.error;
+        } else {
+          error = signup.error;
+        }
+      }
+
+      btn.disabled=false; btn.textContent='Iniciar sesión';
+
+      if(error || !data || !data.session){
+        msg.textContent = 'No se pudo iniciar sesión. Revisa la configuración de Supabase (confirmación de correo).';
+        msg.classList.remove('hidden');
+        return;
+      }
+      entrar(data.session);
+    });
+
+    $('#logoutBtn').addEventListener('click', async ()=>{
+      await sb.auth.signOut();
+      location.reload();
+    });
+
+    // ---------- PESTAÑAS ----------
+    $$('.tab-btn').forEach(btn=>btn.addEventListener('click', ()=>{
+      const tab=btn.dataset.tab;
+      $$('.tab-btn').forEach(b=>{ b.classList.remove('tab-active'); b.classList.add('text-ink/70'); });
+      btn.classList.add('tab-active'); btn.classList.remove('text-ink/70');
+      $$('.tab-panel').forEach(p=>p.classList.add('hidden'));
+      $('#tab-'+tab).classList.remove('hidden');
+    }));
+
+    // ======================================================
+    //  HORARIOS
+    // ======================================================
+    $('#formHorario').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const f = e.target;
+      const row = {
+        fecha: f.fecha.value,
+        hora_inicio: f.hora_inicio.value,
+        hora_fin: f.hora_fin.value || null,
+        sede: f.sede.value,
+        estado: f.estado.value
+      };
+      const { error } = await sb.from('horarios').insert(row);
+      if(error){ toast('Error: '+error.message, false); return; }
+      toast('Horario agregado ✓');
+      f.reset();
+      cargarHorarios();
+    });
+
+    async function cargarHorarios(){
+      const { data, error } = await sb.from('horarios')
+        .select('*').order('fecha',{ascending:true}).order('hora_inicio',{ascending:true});
+      const cont = $('#listaHorarios');
+      if(error){ cont.innerHTML = `<p class="text-terra text-sm">${error.message}</p>`; return; }
+      $('#countHorarios').textContent = `${data.length} turno(s)`;
+      if(!data.length){ cont.innerHTML = '<p class="text-ink/40 text-sm">Aún no hay horarios. Agrega el primero.</p>'; return; }
+      cont.innerHTML = data.map(h=>{
+        const libre = h.estado==='libre';
+        return `
+        <div class="bg-white rounded-2xl border border-sand p-4 flex items-center justify-between gap-4">
+          <div class="min-w-0">
+            <p class="font-medium text-ink capitalize">${fmtFecha(h.fecha)}</p>
+            <p class="text-sm text-ink/60">${fmtHora(h.hora_inicio)}${h.hora_fin?' – '+fmtHora(h.hora_fin):''} · ${h.sede}</p>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <span class="w-2.5 h-2.5 rounded-full ${libre?'bg-sage':'bg-terra'}"></span>
+            <div class="w-36">
+              <select onchange="cambiarEstadoHorario('${h.id}', this.value)" class="w-full bg-cream border border-sand rounded-lg px-2 py-1.5 text-sm">
+                <option value="libre"   ${libre?'selected':''}>Libre</option>
+                <option value="ocupado" ${!libre?'selected':''}>Ocupado</option>
+              </select>
+            </div>
+            <button onclick="borrarHorario('${h.id}')" class="text-ink/40 hover:text-terra p-1.5" title="Eliminar">✕</button>
+          </div>
+        </div>`;
+      }).join('');
+      mejorarSelects(cont);   // embellece los selectores de estado
+    }
+
+    window.cambiarEstadoHorario = async (id, estado)=>{
+      const { error } = await sb.from('horarios').update({estado}).eq('id',id);
+      if(error){ toast('Error: '+error.message,false); return; }
+      toast(estado==='ocupado' ? 'Cita marcada como ocupada' : 'Cita marcada como libre');
+      cargarHorarios();
+    };
+    window.borrarHorario = async (id)=>{
+      if(!confirm('¿Eliminar este horario?')) return;
+      const { error } = await sb.from('horarios').delete().eq('id',id);
+      if(error){ toast('Error: '+error.message,false); return; }
+      toast('Horario eliminado'); cargarHorarios();
+    };
+
+    // ======================================================
+    //  EVENTOS
+    // ======================================================
+    $('#formEvento').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const f = e.target;
+      const spinner=$('#evtSpinner'), btnText=$('#evtBtnText');
+      spinner.classList.remove('hidden'); btnText.textContent='Guardando…';
+
+      try {
+        // 1) Subir foto si existe
+        let foto_url = null;
+        const file = f.foto.files[0];
+        if(file){
+          const ext = file.name.split('.').pop();
+          const path = `evt_${Date.now()}.${ext}`;
+          const { error:upErr } = await sb.storage.from('eventos').upload(path, file, {upsert:true});
+          if(upErr) throw upErr;
+          foto_url = sb.storage.from('eventos').getPublicUrl(path).data.publicUrl;
+        }
+        // 2) Insertar evento
+        const row = {
+          titulo: f.titulo.value.trim(),
+          descripcion: f.descripcion.value.trim() || null,
+          foto_url,
+          fecha: f.fecha.value,
+          hora: f.hora.value || null,
+          lugar: f.lugar.value.trim() || null,
+          precio: f.precio.value.trim() || null,
+          plazas_totales: parseInt(f.plazas_totales.value)||10,
+          plazas_ocupadas: 0,
+          estado: 'disponible'
+        };
+        const { error } = await sb.from('eventos').insert(row);
+        if(error) throw error;
+        toast('Evento creado ✓');
+        f.reset();
+        cargarEventos();
+      } catch(err){
+        toast('Error: '+(err.message||err), false);
+      } finally {
+        spinner.classList.add('hidden'); btnText.textContent='+ Crear evento';
+      }
+    });
+
+    async function cargarEventos(){
+      const { data, error } = await sb.from('eventos').select('*').order('fecha',{ascending:true});
+      const cont = $('#listaEventos');
+      if(error){ cont.innerHTML = `<p class="text-terra text-sm">${error.message}</p>`; return; }
+      $('#countEventos').textContent = `${data.length} evento(s)`;
+      if(!data.length){ cont.innerHTML = '<p class="text-ink/40 text-sm">Aún no hay eventos. Crea el primero.</p>'; return; }
+      cont.innerHTML = data.map(ev=>{
+        const disp = Math.max(0, ev.plazas_totales - ev.plazas_ocupadas);
+        const estadoColor = ev.estado==='disponible' ? 'bg-sage/15 text-sage-dk'
+                          : ev.estado==='agotado' ? 'bg-terra/15 text-terra' : 'bg-ink/10 text-ink/60';
+        return `
+        <div class="bg-white rounded-2xl border border-sand flex flex-col">
+          ${ev.foto_url ? `<img src="${ev.foto_url}" class="h-36 w-full object-cover rounded-t-2xl" alt="${ev.titulo}">`
+                        : `<div class="h-36 w-full bg-beige flex items-center justify-center text-4xl rounded-t-2xl">🕯️</div>`}
+          <div class="p-4 flex-1 flex flex-col">
+            <div class="flex items-start justify-between gap-2">
+              <h3 class="font-serif text-xl text-ink leading-tight">${ev.titulo}</h3>
+              <span class="text-[10px] tracking-widest uppercase px-2 py-1 rounded-full ${estadoColor} shrink-0">${ev.estado}</span>
+            </div>
+            <p class="text-sm text-ink/60 capitalize mt-1">${fmtFecha(ev.fecha)} ${ev.hora?'· '+fmtHora(ev.hora):''}</p>
+            ${ev.lugar?`<p class="text-xs text-ink/50 mt-1">📍 ${ev.lugar}</p>`:''}
+            <div class="mt-3 bg-cream rounded-xl p-3">
+              <div class="flex items-center justify-between text-sm">
+                <span class="text-ink/60">Plazas ocupadas</span>
+                <span class="font-medium text-ink">${ev.plazas_ocupadas} / ${ev.plazas_totales}</span>
+              </div>
+              <div class="flex items-center gap-2 mt-2">
+                <button onclick="ajustarPlaza('${ev.id}', ${ev.plazas_ocupadas}, ${ev.plazas_totales}, -1)" class="w-8 h-8 rounded-full bg-beige hover:bg-sand text-ink">−</button>
+                <div class="flex-1 h-2 bg-beige rounded-full overflow-hidden">
+                  <div class="h-full bg-sage" style="width:${ev.plazas_totales? (ev.plazas_ocupadas/ev.plazas_totales*100):0}%"></div>
+                </div>
+                <button onclick="ajustarPlaza('${ev.id}', ${ev.plazas_ocupadas}, ${ev.plazas_totales}, 1)" class="w-8 h-8 rounded-full bg-beige hover:bg-sand text-ink">+</button>
+              </div>
+              <p class="text-xs text-ink/50 mt-2 text-center">${disp} plaza(s) disponible(s)</p>
+            </div>
+            <div class="mt-3 flex items-center gap-2">
+              <select onchange="cambiarEstadoEvento('${ev.id}', this.value)" class="flex-1 bg-cream border border-sand rounded-lg px-2 py-1.5 text-sm">
+                <option value="disponible" ${ev.estado==='disponible'?'selected':''}>Disponible</option>
+                <option value="ocupado" ${ev.estado==='ocupado'?'selected':''}>Ocupado</option>
+                <option value="agotado" ${ev.estado==='agotado'?'selected':''}>Agotado</option>
+              </select>
+              <button onclick="borrarEvento('${ev.id}','${ev.foto_url||''}')" class="text-ink/40 hover:text-terra p-2" title="Eliminar">🗑️</button>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+      mejorarSelects(cont);   // embellece los selects de estado dentro de las tarjetas
+    }
+
+    window.ajustarPlaza = async (id, ocup, total, delta)=>{
+      let nuevo = Math.min(total, Math.max(0, ocup + delta));
+      const estado = nuevo >= total ? 'agotado' : 'disponible';
+      const { error } = await sb.from('eventos').update({plazas_ocupadas:nuevo, estado}).eq('id',id);
+      if(error){ toast('Error: '+error.message,false); return; }
+      cargarEventos();
+    };
+    window.cambiarEstadoEvento = async (id, estado)=>{
+      const { error } = await sb.from('eventos').update({estado}).eq('id',id);
+      if(error){ toast('Error: '+error.message,false); return; }
+      toast('Estado actualizado'); cargarEventos();
+    };
+    window.borrarEvento = async (id, foto)=>{
+      if(!confirm('¿Eliminar este evento?')) return;
+      const { error } = await sb.from('eventos').delete().eq('id',id);
+      if(error){ toast('Error: '+error.message,false); return; }
+      // borrar foto del storage si existe
+      if(foto){ const path = foto.split('/eventos/')[1]; if(path) await sb.storage.from('eventos').remove([path]); }
+      toast('Evento eliminado'); cargarEventos();
+    };
+
+    // ---------- Iniciar ----------
+    checkSession();
+  </script>
+</body>
+</html>
